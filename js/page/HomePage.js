@@ -18,6 +18,7 @@ import {createBottomTabNavigator,
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import  Entypo from 'react-native-vector-icons/Entypo';
+import NavigationUtil from "../navigator/NavigationUtil";
 
 export default class HomePage extends Component<Props> {
   _tabNavigator(){
@@ -79,6 +80,7 @@ export default class HomePage extends Component<Props> {
   }
 
   render() {
+      NavigationUtil.navigation = this.props.navigation;
       const Tab = this._tabNavigator();
       return <Tab/>
   }
