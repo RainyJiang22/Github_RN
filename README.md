@@ -9,7 +9,7 @@
 
 * [功能与特性](#功能与特性)
 * [技术与框架](#技术与框架)
-* [运行调试](#运行调式)
+* [运行调试](#运行调试)
 
 
 ## 功能与特性
@@ -83,7 +83,6 @@ export  default createAppContainer(createSwitchNavigator({
 
 
 ##  运行调试
->>>>>>> first
 
 1. 准备React Native环境,可参考: [Requirements](https://facebook.github.io/react-native/docs/getting-started.html#requirements)。
 2. Clone 之后，然后终端进入项目根目录。
