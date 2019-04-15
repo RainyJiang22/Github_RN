@@ -98,7 +98,7 @@ export default class DynamicTabNavigator extends Component<Props> {
   }
 
   render() {
-      NavigationUtil.navigation = this.props.navigation;
+
       const Tab = this._tabNavigator();
       return <Tab/>
   }

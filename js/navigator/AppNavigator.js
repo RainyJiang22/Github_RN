@@ -41,7 +41,7 @@ const MainNavigator = createStackNavigator({
     }
 });
 
-const SwitchNavigator = createSwitchNavigator({
+export  default createAppContainer(createSwitchNavigator({
     Init:{
         screen:InitNavigator
     },
@@ -50,11 +50,8 @@ const SwitchNavigator = createSwitchNavigator({
     },
     Main:{
         screen:MainNavigator
-    }
-
-}, {
-    backBehavior: 'none'
-});
-
-
-export  default createAppContainer(SwitchNavigator);
+    } },{
+            defaultNavigationOptions:{
+                header:null //将header设为null
+            }
+    }));
