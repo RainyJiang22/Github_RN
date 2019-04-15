@@ -37,9 +37,6 @@ import com.facebook.react.ReactActivity;
  import com.facebook.react.ReactRootView;
  import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
-<<<<<<< HEAD
-## 运行调试
-=======
 public class MainActivity extends ReactActivity {
 
   @Override
