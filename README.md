@@ -1,4 +1,4 @@
-# Github_RN
+# 基于React-Native混合开发的Github客户端APP
 打造一款基于React-Native混合开发的Github客户端APP
 
 
