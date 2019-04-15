@@ -7,10 +7,10 @@
  */
 
 import React, {Component} from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View,Button} from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import NavigationUtil from "../navigator/NavigationUtil";
+//import NavigationUtil from "../navigator/NavigationUtil";
 
 
 type Props = {};
@@ -34,9 +34,11 @@ export default class Splash extends Component<Props> {
           <Text style={styles.text}>程序员的开源代码库</Text>
         </View>
         <View style={styles.slide4}>
-          <Text onPress={() => {
-              NavigationUtil.goPage({},"HomePage")
-          }}>马上体验</Text>
+           <Button
+               title="马上体验"
+               onPress={() => {
+                 this.props.navigation.navigate('HomePage');
+               }}/>
         </View>
       </Swiper>
     );

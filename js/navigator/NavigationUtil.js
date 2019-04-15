@@ -37,6 +37,6 @@ export default class NavigationUtil{
      */
     static resetTOHomePage(params){
         const  {navigation} = params;
-        navigation.navigate("Main");
+        navigation.navigate("Splash");
     }
 }
