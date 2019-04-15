@@ -1,4 +1,4 @@
-# Github_RN
+# 基于React-Native混合开发的Github客户端APP
 打造一款基于React-Native混合开发的Github客户端APP
 
 
@@ -12,7 +12,7 @@
 * 支持分享,轻松将自己喜欢的项目分享给好友;
 
 
-# 运行调试
+## 运行调试
 
 1. 准备React Native环境,可参考: [Requirements](https://facebook.github.io/react-native/docs/getting-started.html#requirements)。
 2. Clone 之后，然后终端进入项目根目录。
