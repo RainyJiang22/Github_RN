@@ -82,6 +82,9 @@ export  default createAppContainer(createSwitchNavigator({
 2. Store自动调用reducer，并且传入两个参数（当前State和收到的Action）,Reducer会返回新的State，如果有Middleware
 3. State一旦有变化，Store就会调用监听函数，来更新View;
 4. 可预测，可维护，可测试
+[关于redux+navigation的搭建可查看慕课老师的手记](https://www.imooc.com/article/283337)
+
+
 
 
 ##  运行调试
