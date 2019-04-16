@@ -9,6 +9,7 @@
 
 * [功能与特性](#功能与特性)
 * [技术与框架](#技术与框架)
+* [网络编程技术](#网络编程技术)
 * [运行调试](#运行调试)
 
 
@@ -85,7 +86,11 @@ export  default createAppContainer(createSwitchNavigator({
 [关于redux+navigation的搭建可查看慕课老师的手记](https://www.imooc.com/article/283337)
 
 
-
+## 网络编程技术
+* RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美
+* fetch规范于JQuery.ajax()主要有两种方式的不同
+1. 当收到代表错误的HTTP状态码，不会被标记为reject,状态码会变为404或500，它会将Promise状态标记为resolve
+2. 默认情况下，fetch不会从服务端发送或者接收任何cookies，如果依赖于用户session，则会导致未经认证的请求
 
 ##  运行调试
 

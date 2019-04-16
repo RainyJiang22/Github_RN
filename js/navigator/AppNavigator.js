@@ -49,12 +49,13 @@ export  const RootNavigator =  createSwitchNavigator({
     Init:{
         screen:InitNavigator
     },
+    Main:{
+        screen:MainNavigator
+    },
     Splash:{
         screen:SplashNavigator
     },
-    Main:{
-        screen:MainNavigator
-    } },{
+   },{
             defaultNavigationOptions:{
                 header:null //将header设为null
             }
