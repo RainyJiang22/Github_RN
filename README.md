@@ -83,14 +83,21 @@ export  default createAppContainer(createSwitchNavigator({
 2. Store自动调用reducer，并且传入两个参数（当前State和收到的Action）,Reducer会返回新的State，如果有Middleware
 3. State一旦有变化，Store就会调用监听函数，来更新View;
 4. 可预测，可维护，可测试
-[关于redux+navigation的搭建可查看慕课老师的手记](https://www.imooc.com/article/283337)
+5. [关于redux+navigation的搭建可查看慕课老师的手记](https://www.imooc.com/article/283337)
 
 
 ## 网络编程技术
-* RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美
-* fetch规范于JQuery.ajax()主要有两种方式的不同
-1. 当收到代表错误的HTTP状态码，不会被标记为reject,状态码会变为404或500，它会将Promise状态标记为resolve
-2. 默认情况下，fetch不会从服务端发送或者接收任何cookies，如果依赖于用户session，则会导致未经认证的请求
+1. RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美
+2. fetch规范于JQuery.ajax()主要有两种方式的不同
+ * 当收到代表错误的HTTP状态码，不会被标记为reject,状态码会变为404或500，它会将Promise状态标记为resolve
+ * 默认情况下，fetch不会从服务端发送或者接收任何cookies，如果依赖于用户session，则会导致未经认证的请求
+3. 使用的api
+- URL:https://api.github.com/search/repositories?
+- 查询所有的:q=stars:>1&sort=stars
+- 分类查询：q=ios&sort=stars
+//  var API_URL ='https://api.github.com/search/repositories?q=ios&sort=stars';
+//  var API_URL ='https://api.github.com/search/repositories?q=stars:>1&sort=stars';
+
 
 ##  运行调试
 

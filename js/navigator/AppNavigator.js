@@ -5,6 +5,7 @@ import {createStackNavigator,
 import WelcomePage from '../page/WelcomePage';
 import HomePage from '../page/HomePage';
 import DetailPage from '../page/DetailPage';
+import FetchDemoPage from '../page/FetchDemoPage';
 import Splash from '../swiper/Splash';
 import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware, createReduxContainer} from 'react-navigation-redux-helpers';
@@ -42,7 +43,13 @@ const MainNavigator = createStackNavigator({
         navigationOptions:{
         //    header:null
         }
-    }
+    },
+    FetchDemoPage: {
+        screen: FetchDemoPage,
+        navigationOptions:{
+            //    header:null
+        }
+    },
 });
 
 export  const RootNavigator =  createSwitchNavigator({
