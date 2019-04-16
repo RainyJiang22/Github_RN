@@ -1,5 +1,5 @@
 /**
- * 全局盗汗跳转工具类
+ * 全局导航跳转工具类
  */
 
 export default class NavigationUtil{
@@ -22,6 +22,7 @@ export default class NavigationUtil{
             }
         )
     }
+
 
     /**
      * 返回上一页

@@ -25,10 +25,10 @@
 
 * react navigation 3.x,可以参考:[react navigation3.x](https://reactnavigation.org/docs/en/hello-react-navigation.html)
 1. 在使用react-navigation3.x的时候，与之前的2.x大概有两种不同
-- 在导入react-navigation的时候2.x版本只需要`npm add`或者`npm install react-navigation`
-- 不同的是react-navigation3.x版本除了安装`npm install react-navigation`还需要导入`npm add react-native-gesture-handler`
-- 最后需要`react-native link` 将依赖导入到Android平台或者IOS平台
-2. react-navigation 安装后，需要在android包中的MainActivity.java添加以下代码
+2.  在导入react-navigation的时候2.x版本只需要`npm add`或者`npm install react-navigation`
+      不同的是react-navigation3.x版本除了安装`npm install react-navigation`还需要导入`npm add react-native-gesture-handler`
+3. 最后需要`react-native link` 将依赖导入到Android平台或者IOS平台
+4.  react-navigation 安装后，需要在android包中的MainActivity.java添加以下代码
 ```
 package com.reactnavigation.example;
 
@@ -55,7 +55,7 @@ public class MainActivity extends ReactActivity {
 }
 }
 ```
-3. 不同的是，React Navigation3.x在创建堆栈导航器的时候，不可用createStackNavigator直接return，需要一个路由配置对象
+5.  不同的是，React Navigation3.x在创建堆栈导航器的时候，不可用createStackNavigator直接return，需要一个路由配置对象
 它是一个Rect组件的返回函数，所以我们需要使用createAPPContainer（xxx）进行处理
 `export default createAppContainer(AppNavigator);`
 4. 还有一个小改动，React Navigation3.x除了在createStackNavigator使用navigationoptions时，在进行堆栈导航器的时候要使用defaultnavigationoptions，大致代码如下：
@@ -76,7 +76,12 @@ export  default createAppContainer(createSwitchNavigator({
     }));
 ```
 * react-native swiper : [详情前点击☞](https://github.com/leecade/react-native-swiper)
+
 * react-redux : [详情前点击☞](https://react-redux.js.org/)
+1. 用户（操作View）发出方式用到dispatch方法
+2. Store自动调用reducer，并且传入两个参数（当前State和收到的Action）,Reducer会返回新的State，如果有Middleware
+3. State一旦有变化，Store就会调用监听函数，来更新View;
+4. 可预测，可维护，可测试
 
 
 ##  运行调试

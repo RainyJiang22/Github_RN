@@ -1,25 +1,19 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *主界面
- * @format
- * @flow
- */
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Provider} from 'react-redux';
+import AppNavigator from './navigator/AppNavigator';
+import store from './store';
 
-import NavigationUtil from "../navigator/NavigationUtil";
-import DynamicTabNavigator from "../navigator/DynamicTabNavigator";
-
-
-export default class HomePage extends Component<Props> {
-
-
+type Props = {};
+export default class App extends Component<Props> {
   render() {
-      NavigationUtil.navigation = this.props.navigation;
-     // const Tab = this._tabNavigator();
-      return <DynamicTabNavigator/>
+    /**
+     * 将store传递给App框架
+     */
+    return <Provider store={store}>
+      <AppNavigator/>
+    </Provider>
   }
 }
 

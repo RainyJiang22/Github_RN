@@ -1,17 +1,19 @@
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
- *
+ *欢迎界面
  * @format
  * @flow
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, View, Image, Text} from 'react-native';
+
 
 import NavigationUtil from '../navigator/NavigationUtil';
 type Props = {};
 export default class WelcomePage extends Component<Props> {
+    //定时跳转
      componentDidMount(){
        this.timer = setTimeout(() => {
           NavigationUtil.resetTOHomePage({
@@ -26,7 +28,7 @@ export default class WelcomePage extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-         <Text style={styles.welcome}>WelcomePage</Text>
+          <Text style={styles.welcome}>WelcomePage</Text>
       </View>
     );
   }
@@ -49,4 +51,5 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+
 });
