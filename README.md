@@ -10,7 +10,9 @@
 * [功能与特性](#功能与特性)
 * [技术与框架](#技术与框架)
 * [网络编程技术](#网络编程技术)
+* [数据存储技术](#数据存储技术)
 * [运行调试](#运行调试)
+
 
 
 ## 功能与特性
@@ -95,8 +97,18 @@ export  default createAppContainer(createSwitchNavigator({
 - URL:https://api.github.com/search/repositories?
 - 查询所有的:q=stars:>1&sort=stars
 - 分类查询：q=ios&sort=stars
-//  var API_URL ='https://api.github.com/search/repositories?q=ios&sort=stars';
-//  var API_URL ='https://api.github.com/search/repositories?q=stars:>1&sort=stars';
+```
+  var API_URL ='https://api.github.com/search/repositories?q=ios&sort=stars';
+  var API_URL ='https://api.github.com/search/repositories?q=stars:>1&sort=stars';
+```
+
+
+##  数据存储技术
+
+1. 这里我们使用AsyncStorage
+    - 简单的，异步的，持久化的key-value存储系统
+    - AsyncStorage也是React Navtive官方推荐的数据存储方式
+2. [详情前点击☞](https://facebook.github.io/react-native/docs/getting-started)
 
 
 ##  运行调试
