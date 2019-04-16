@@ -87,6 +87,11 @@ export  default createAppContainer(createSwitchNavigator({
 4. 可预测，可维护，可测试
 5. [关于redux+navigation的搭建可查看慕课老师的手记](https://www.imooc.com/article/283337)
 
+* 离线缓存框架
+  1. 提升用户体验
+  2. 节省流量 
+
+
 
 ## 网络编程技术
 1. RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美

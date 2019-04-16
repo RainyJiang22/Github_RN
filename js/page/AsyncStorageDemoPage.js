@@ -134,7 +134,7 @@ export default class AsyncStorageDemoPage extends Component<Props> {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex:1,
         backgroundColor: '#F5FCFF',
     },
     welcome: {
