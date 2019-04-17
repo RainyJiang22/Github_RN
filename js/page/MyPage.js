@@ -10,6 +10,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View,Button} from 'react-native';
 import actions from "../action";
 import {connect} from "react-redux";
+import NavigationUtil from "../navigator/NavigationUtil";
 
 type Props = {};
 class MyPage extends Component<Props> {
@@ -22,6 +23,19 @@ class MyPage extends Component<Props> {
                     title="改变主题色"
                     onPress={() =>{
                         this.props.onThemeChange('#930')
+                    }}/>
+
+                <Text onPress={() =>{
+                    NavigationUtil.goPage({
+                        navigation:this.props.navigation
+                    },"DetailPage")
+                }}>跳转到详情页</Text>
+                <Button
+                    title={"DataStore使用"}
+                    onPress={() =>{
+                        NavigationUtil.goPage({
+                            navigation:this.props.navigation
+                        },"DataStoreDemoPage")
                     }}/>
             </View>
         );

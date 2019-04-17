@@ -1,8 +1,8 @@
 # 基于React-Native混合开发的Github客户端APP
 打造一款基于React-Native混合开发的Github客户端APP
 
-[![Nodejs](https://img.shields.io/badge/Download-v1.0.3-ff69b4.svg)](https://nodejs.org/en/download/)
-[![npm](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg)](https://www.npmjs.com/package/npm)
+[![Nodejs](https://img.shields.io/badge/v10.15.3-nodejs-brightgreen.svg)](https://nodejs.org/en/download/)
+[![npm](https://img.shields.io/badge/npm-v6.4.1-orange.svg)](https://www.npmjs.com/package/npm)
 
 
 ## 目录
@@ -78,9 +78,9 @@ export  default createAppContainer(createSwitchNavigator({
             }
     }));
 ```
-* react-native swiper : [详情前点击☞](https://github.com/leecade/react-native-swiper)
+* react-native swiper : [☞详情前点击](https://github.com/leecade/react-native-swiper)
 
-* react-redux : [详情前点击☞](https://react-redux.js.org/)
+* react-redux : [☞详情前点击](https://react-redux.js.org/)
 1. 用户（操作View）发出方式用到dispatch方法
 2. Store自动调用reducer，并且传入两个参数（当前State和收到的Action）,Reducer会返回新的State，如果有Middleware
 3. State一旦有变化，Store就会调用监听函数，来更新View;
@@ -91,6 +91,9 @@ export  default createAppContainer(createSwitchNavigator({
   1. 提升用户体验
   2. 节省流量 
 
+* 基于redux+FlatList实现列表页数据加载
+  1. 增加了上拉刷新，下拉刷新功能
+* 使用react-native-easy-toast （一款弹窗提示toast组件):[☞详情前点击](https://www.npmjs.com/package/react-native-easy-toast)
 
 
 ## 网络编程技术
