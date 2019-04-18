@@ -86,6 +86,7 @@ export  const RootNavigator =  createSwitchNavigator({
     });
 /**
  * 1.初始化react-navigation与redux的中间件，
+ *  （目前reduxfifyNvigator组件变为了createReduxContainer）
  * 该方法的一个很大的作用就是为reduxifyNavigator的key设置actionSubscribers(行为订阅者)
  * 设置订阅者@https://github.com/react-navigation/react-navigation-redux-helpers/blob/master/src/middleware.js#L29
  * 检测订阅者是否存在@https://github.com/react-navigation/react-navigation-redux-helpers/blob/master/src/middleware.js#L97

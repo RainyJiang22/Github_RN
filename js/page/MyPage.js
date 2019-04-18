@@ -7,36 +7,74 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View,Button} from 'react-native';
+import {Platform, StyleSheet, Text, View,Button,TouchableOpacity} from 'react-native';
 import actions from "../action";
 import {connect} from "react-redux";
-import NavigationUtil from "../navigator/NavigationUtil";
+//import NavigationUtil from "../navigator/NavigationUtil";
+import NavigationBar from "../common/NavigationBar";
+
+const THEME_COLOR = '#678';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 type Props = {};
 class MyPage extends Component<Props> {
+
+    //顶部动态显示导航
+    constructor(props){
+        super(props);
+    }
+
+
+    getRightButton(){
+        return <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity
+              onPress={() => {
+              }}
+            >
+                <View style={{padding:5,marginRight: 8}}>
+                    <AntDesign
+                       name={'search1'}
+                       size={21}
+                       style={{color:'white'}}
+                    />
+                </View>
+            </TouchableOpacity>
+        </View>
+    }
+
+    getLeftButton(callBack){
+          return <TouchableOpacity
+            style={{padding: 8,paddingLeft:12}}
+              onPress={callBack}>
+              <Ionicons
+                 name={'md-arrow-back'}
+                 size={24}
+                 style={{color:'white'}}
+              />
+
+          </TouchableOpacity>
+    }
+
     render() {
 
-        return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>我的页面</Text>
-                <Button
-                    title="改变主题色"
-                    onPress={() =>{
-                        this.props.onThemeChange('#930')
-                    }}/>
+        let statusBar={
+            backgroundColor: THEME_COLOR,
+            barStyle:'light-content',
+        };
 
-                <Text onPress={() =>{
-                    NavigationUtil.goPage({
-                        navigation:this.props.navigation
-                    },"DetailPage")
-                }}>跳转到详情页</Text>
-                <Button
-                    title={"DataStore使用"}
-                    onPress={() =>{
-                        NavigationUtil.goPage({
-                            navigation:this.props.navigation
-                        },"DataStoreDemoPage")
-                    }}/>
+        let navigationBar = <NavigationBar
+         title={'我的'}
+         statusBar={statusBar}
+         style={{backgroundColor:THEME_COLOR}}
+          rightButton={this.getRightButton()}
+         leftButton={this.getLeftButton()}
+        />;
+
+        return  (
+            <View style={{flex: 1}}>
+            {navigationBar}
             </View>
         );
     }
@@ -45,9 +83,7 @@ class MyPage extends Component<Props> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+
     },
     welcome: {
         fontSize: 20,

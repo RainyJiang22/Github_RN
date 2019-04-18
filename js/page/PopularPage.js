@@ -1,26 +1,28 @@
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
- *最新界面
+ *最热界面
  * @format
  * @flow
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View,FlatList,RefreshControl,ActivityIndicator} from 'react-native';
+import {StyleSheet, Text, View, FlatList, RefreshControl, ActivityIndicator, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import actions from '../action/index';
 import Toast from 'react-native-easy-toast'
 import PopularItem from '../common/PopularItem';
 
+
 import {
     createMaterialTopTabNavigator,
     createAppContainer
 } from "react-navigation";
-
+import NavigationBar from "../common/NavigationBar";
+import AntDesign from "react-native-vector-icons/AntDesign";
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars'; //按照点赞数来排序
-const TITLE_COLOR = 'red';
+const TITLE_COLOR = '#678';
 
 type Props = {};
 export default class PopularPage extends Component<Props> {
@@ -64,11 +66,43 @@ export default class PopularPage extends Component<Props> {
     return  createAppContainer(TabNavigator);
   }
 
+  //获取右边按钮
+    getRightButton(){
+        return <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity
+                onPress={() => {
+                }}
+            >
+                <View style={{padding:5,marginRight: 8}}>
+                    <AntDesign
+                        name={'search1'}
+                        size={21}
+                        style={{color:'white'}}
+                    />
+                </View>
+            </TouchableOpacity>
+        </View>
+    }
 
 
   render() {
+      let statusBar={
+          backgroundColor: TITLE_COLOR,
+          barStyle: 'light-content', //不设置也行
+      };
+      let navigationBar = <NavigationBar
+        title={'最热'}
+        statusBar={statusBar}
+        style={{backgroundColor:TITLE_COLOR}}
+        rightButton={this.getRightButton()}
+      />;
+
     const TabNavigator = this._tabTopNavigator();
-    return <TabNavigator/>
+    return <View style={{flex: 1}}>
+        {navigationBar}
+        <TabNavigator/>
+    </View>
+
   }
 }
 
@@ -88,10 +122,12 @@ class PopularTab extends Component<Props> {
        const store = this._store();
        const url = this.genFetchUrl(this.storeName);
        if (loadMore){
+           //下拉加载更多
            onLoadMorePopular(this.storeName, ++store.pageIndex,pageSize,store.items,callback=>{
                this.refs.toast.show('没有更多了');
            })
        } else{
+           //否则上拉刷新
            onLoadPopularData(this.storeName,url,pageSize)
        }
 
@@ -159,6 +195,9 @@ class PopularTab extends Component<Props> {
                         tintColor={TITLE_COLOR}
                     />
                 }
+
+                //这里是解决下拉加载重复更新，每次只显示自定义pageSize，我这里是一次加载10个数据，
+                //下拉加载更多的优化
                 ListFooterComponent={()=> this.genIndicator()}
                 onEndReached={() => {
                     console.log('---onEndReached----');

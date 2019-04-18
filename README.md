@@ -95,6 +95,8 @@ export  default createAppContainer(createSwitchNavigator({
   1. 增加了上拉刷新，下拉刷新功能
 * 使用react-native-easy-toast （一款弹窗提示toast组件):[☞详情前点击](https://www.npmjs.com/package/react-native-easy-toast)
 
+* 关于趋势界面使用了第三方开源组件，GitHubTrending
+[☞详情前点击](https://github.com/crazycodeboy/GitHubTrending)
 
 ## 网络编程技术
 1. RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美

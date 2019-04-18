@@ -7,12 +7,20 @@
     "test": "jest"
   },
   "dependencies": {
+    "GitHubTrending": "^3.0.1",
+    "prop-types": "^15.7.2",
     "react": "16.8.3",
     "react-native": "0.59.4",
+    "react-native-easy-toast": "^1.2.0",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-swiper": "^1.5.14",
     "react-native-vector-icons": "^6.4.2",
-    "react-navigation": "^3.8.1"
+    "react-navigation": "^3.8.1",
+    "react-navigation-redux-helpers": "^3.0.2",
+    "react-navigation-tabs": "^2.1.1",
+    "react-redux": "^7.0.2",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "7.4.3",
@@ -20,7 +28,8 @@
     "babel-jest": "24.7.1",
     "jest": "24.7.1",
     "metro-react-native-babel-preset": "0.53.1",
-    "react-test-renderer": "16.8.3"
+    "react-test-renderer": "16.8.3",
+    "redux-devtools": "^3.5.0"
   },
   "jest": {
     "preset": "react-native"
