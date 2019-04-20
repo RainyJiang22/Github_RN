@@ -13,6 +13,7 @@ import actions from '../action/index';
 import Toast from 'react-native-easy-toast'
 import TrendingItem from '../common/TrendingItem';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 import {
     createMaterialTopTabNavigator,
     createAppContainer
