@@ -1,4 +1,6 @@
 import {AsyncStorage} from 'react-native';
+import Trending from 'GitHubTrending';
+export const FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'};
 
 export default class DataStore{
 
@@ -11,9 +13,11 @@ export default class DataStore{
      */
     fetchData(url, flag) {
         return new Promise((resolve, reject) => {
+            //先获取本地数据
             this.fetchLocalData(url).then((wrapData) => {
                 if (wrapData && DataStore.checkTimestampValid(wrapData.timestamp)) {
                     resolve(wrapData);
+                    //否则获取网络数据
                 } else {
                     this.fetchNetData(url, flag).then((data) => {
                         resolve(this._wrapData(data));
@@ -21,7 +25,7 @@ export default class DataStore{
                         reject(error);
                     })
                 }
-
+                //本地数据没有的话，直接获取网络数据
             }).catch((error) => {
                 this.fetchNetData(url, flag).then((data) => {
                     resolve(this._wrapData(data));
@@ -75,6 +79,8 @@ export default class DataStore{
      */
     fetchNetData(url, flag) {
         return new Promise((resolve, reject) => {
+
+            if(flag !== FLAG_STORAGE.flag_trending) {
                 fetch(url)
                     .then((response) => {
                         if (response.ok) {
@@ -89,7 +95,20 @@ export default class DataStore{
                     .catch((error) => {
                         reject(error);
                     })
-            })
+            } else{
+                new Trending().fetchTrending(url)
+                    .then(items=>{
+                        if (!items){
+                            throw new  Error('Response is null');
+                        }
+                        this.saveData(url,items);
+                        resolve(items);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            }
+        })
     }
 
 
@@ -106,6 +125,7 @@ export default class DataStore{
         const currentDate = new Date();
         const targetDate = new Date();
         targetDate.setTime(timestamp);
+   //     if (currentDate.getFullYear() !== targetDate.getFullYear()) return false; //设置有效期
         if (currentDate.getMonth() !== targetDate.getMonth()) return false;
         if (currentDate.getDate() !== targetDate.getDate()) return false;
         if (currentDate.getHours() - targetDate.getHours() > 4) return false;//有效期4个小时

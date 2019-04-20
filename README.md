@@ -95,8 +95,14 @@ export  default createAppContainer(createSwitchNavigator({
   1. 增加了上拉刷新，下拉刷新功能
 * 使用react-native-easy-toast （一款弹窗提示toast组件):[☞详情前点击](https://www.npmjs.com/package/react-native-easy-toast)
 
-* 关于趋势界面使用了第三方开源组件，GitHubTrending
+* 关于趋势界面使用了第三方开源组件，GitHubTrending（慕课老师开发的第三方组件）
 [☞详情前点击](https://github.com/crazycodeboy/GitHubTrending)
+
+* React-native中自带的WebView组件用于显示网络视图
+- 在state中定义了加载的url与页面缩放方式
+- 在WebView中加载javascript并执行
+- 
+
 
 ## 网络编程技术
 1. RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美
@@ -118,6 +124,8 @@ export  default createAppContainer(createSwitchNavigator({
 1. 这里我们使用AsyncStorage
     - 简单的，异步的，持久化的key-value存储系统
     - AsyncStorage也是React Navtive官方推荐的数据存储方式
+    - IOS平台中会使用原生代码将AsyncStorage中的小数据存储于序列化的字典数据结构中，大数据存储于单独的文件中
+    - Androd平台会将AsyncStorage存储于RocksDB或者Sqlite中
 2. [详情前点击☞](https://facebook.github.io/react-native/docs/getting-started)
 
 
