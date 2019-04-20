@@ -22,12 +22,15 @@ import NavigationBar from "../common/NavigationBar";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 const URL = 'https://github.com/trending/';
-import TrendingDialog,{TimeSpans} from "../common/TrendingDialog";
+import TrendingDialog,{TimeSpans} from "../common/TrendingDialog"
 //const QUERY_STR = '&sort=stars'; //按照点赞数来排序
 const TITLE_COLOR = '#2a8ffa';
 
 type Props = {};
 export default class TrendingPage extends Component<Props> {
+    //默认显示今天
+   // timeSpan:TimeSpans[0];
+
 
     //顶部导航动态显示
     constructor(props){
@@ -35,15 +38,15 @@ export default class TrendingPage extends Component<Props> {
         this.tabNames =['All','C','C#','PHP','JavaScript'];
         this.state = {
             //默认显示今天
-            timeSpan : TimeSpans[0],
-        }
+            timeSpan: TimeSpans[0],
+        };
     }
     _genTabs(){
         const tabs={};
         this.tabNames.forEach((item,index)=>{
             tabs[`tab${index}`] = {
 
-                screen: props => <TrendingTabPage {...props} tabLabel={item}/>,  //传递数据
+                screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item}/>,  //传递数据
                 navigationOptions:{
                     title:item
                 }
@@ -64,11 +67,12 @@ export default class TrendingPage extends Component<Props> {
                          fontSize:18,
                          color:'#FFFFFF',
                          fontWeight: '400'
-                     }}>趋势{this.state.timeSpan.showText}</Text>
+                     }}>趋势  {this.state.timeSpan.showText}</Text>
                     <MaterialIcons
                         name={'arrow-drop-down'}
                         size={22}
-                        style={{color: 'white'}}
+                        style={{color: 'white',}}
+
                     />
                 </View>
             </TouchableOpacity>
@@ -154,8 +158,9 @@ const pageSize = 10;//设为常量，防止修改
 class TrendingTab extends Component<Props> {
     constructor(props){
         super(props);
-        const {tabLabel} = this.props;
+        const {tabLabel,timeSpan} = this.props;
         this.storeName = tabLabel;
+        this.timeSpan = timeSpan;
     }
     componentDidMount() {
         this.loadData();
@@ -197,7 +202,7 @@ class TrendingTab extends Component<Props> {
     }
 
     genFetchUrl(key) {
-        return URL + key + '?since=daily';
+        return URL + key + '?' + this.timeSpan.searchText;
     }
 
     renderItem(data){
