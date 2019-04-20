@@ -1,7 +1,7 @@
 # 基于React-Native混合开发的Github客户端APP
 打造一款基于React-Native混合开发的Github客户端APP
 
-[![Nodejs](https://nodejs.org/en/download/)](https://img.shields.io/badge/v10.15.3-nodejs-brightgreen.svg)
+[![Nodejs](https://img.shields.io/badge/v10.15.3-nodejs-brightgreen.svg)](https://nodejs.org/en/download/)
 [![npm](https://img.shields.io/badge/npm-v6.4.1-orange.svg)](https://www.npmjs.com/package/npm)
 
 
