@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Image,StyleSheet,Text,View} from 'react-native';
 import {TouchableOpacity} from "react-native-gesture-handler";
+import HTMLView from 'react-native-htmlview';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default class TrendingItem extends Component{
@@ -21,7 +22,8 @@ export default class TrendingItem extends Component{
                    size={26}
                    style={{color:'red'}}
                  />
-             </TouchableOpacity>
+             </TouchableOpacity>;
+          let description = '<p>' + item.description + '</p>';
          return (
            <TouchableOpacity
                onPress={this.props.onSelect}
@@ -31,8 +33,18 @@ export default class TrendingItem extends Component{
                    <Text style={styles.title}>
                        {item.fullName}
                    </Text>
+                   <HTMLView
+                      value={description}
+                      //调装到指定的界面
+                      onLinkPress={(url) => {
+                      }}
+                      stylesheet={{
+                          p: styles.description,
+                          a: styles.description,
+                      }}
+                   />
                    <Text style={styles.description}>
-                       {item.description}
+                       {item.meta}
                    </Text>
                   <View style={styles.tandem}>
                       <View style={styles.tandem}>
@@ -44,10 +56,6 @@ export default class TrendingItem extends Component{
                                      source={{uri: arr[i]}}
                               />
                           })}
-                      </View>
-                      <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-                          <Text>Star:</Text>
-                          <Text>{item.forkCount}</Text>
                       </View>
                       {favoriteButton}
                   </View>

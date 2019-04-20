@@ -99,10 +99,11 @@ export  default createAppContainer(createSwitchNavigator({
 [☞详情前点击](https://github.com/crazycodeboy/GitHubTrending)
 
 * React-native中自带的WebView组件用于显示网络视图
-- 在state中定义了加载的url与页面缩放方式
-- 在WebView中加载javascript并执行
-- 
+1. 在state中定义了加载的url与页面缩放方式
+2. 在WebView中加载javascript并执行
 
+* 在React-native显示html组件可以使用React-native htmlview
+[☞详情前点击](https://www.npmjs.com/package/react-native-htmlview)
 
 ## 网络编程技术
 1. RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美

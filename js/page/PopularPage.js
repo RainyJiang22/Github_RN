@@ -55,7 +55,8 @@ export default class PopularPage extends Component<Props> {
             upperCaseLabel:false, //是否使用标签大写
             scrollEnabled:true, //是否支持选项卡可以滚动
             style:{
-              backgroundColor:"#678" //配置tab的背景色
+              backgroundColor:"#678", //配置tab的背景色
+              height:40, //设置固定的高度
             },
             indicatorStyle:styles.indicatorStyle, //指示器的颜色
             labelStyle:styles.labelStyle, //文字的样式
@@ -254,7 +255,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   tableStyle:{
-      minWidth: 50
+    //  minWidth: 50
+      padding : 0
   },
   indicatorStyle:{
     height:2,
@@ -262,8 +264,7 @@ const styles = StyleSheet.create({
   },
   labelStyle:{
      fontSize:13,
-    marginTop:6,
-    marginBottom: 6,
+     margin:0,
   },
     indicatorContainer: {
         alignItems: "center"
