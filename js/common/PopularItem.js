@@ -19,7 +19,7 @@ export default class PopularItem extends Component{
                  <FontAwesome
                    name={'star-o'}
                    size={26}
-                   style={{color:'red'}}
+                   style={{color:'#2a8ffa'}}
                  />
              </TouchableOpacity>
          return (

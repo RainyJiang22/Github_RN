@@ -22,7 +22,7 @@ import NavigationBar from "../common/NavigationBar";
 import AntDesign from "react-native-vector-icons/AntDesign";
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars'; //按照点赞数来排序
-const TITLE_COLOR = '#678';
+const TITLE_COLOR = '#2a8ffa';
 
 type Props = {};
 export default class PopularPage extends Component<Props> {
@@ -55,7 +55,7 @@ export default class PopularPage extends Component<Props> {
             upperCaseLabel:false, //是否使用标签大写
             scrollEnabled:true, //是否支持选项卡可以滚动
             style:{
-              backgroundColor:"#678", //配置tab的背景色
+              backgroundColor:"#2a8ffa", //配置tab的背景色
               height:40, //设置固定的高度
             },
             indicatorStyle:styles.indicatorStyle, //指示器的颜色

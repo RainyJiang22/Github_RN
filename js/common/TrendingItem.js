@@ -20,7 +20,7 @@ export default class TrendingItem extends Component{
                  <FontAwesome
                    name={'star-o'}
                    size={26}
-                   style={{color:'red'}}
+                   style={{color:'#2a8ffa'}}
                  />
              </TouchableOpacity>;
           let description = '<p>' + item.description + '</p>';

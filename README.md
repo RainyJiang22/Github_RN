@@ -105,6 +105,8 @@ export  default createAppContainer(createSwitchNavigator({
 * 在React-native显示html组件可以使用React-native htmlview
 [☞详情前点击](https://www.npmjs.com/package/react-native-htmlview)
 
+* 使用react-native中的modal弹窗组件
+
 ## 网络编程技术
 1. RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美
 2. fetch规范于JQuery.ajax()主要有两种方式的不同

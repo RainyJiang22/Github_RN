@@ -13,7 +13,7 @@ import {connect} from "react-redux";
 //import NavigationUtil from "../navigator/NavigationUtil";
 import NavigationBar from "../common/NavigationBar";
 
-const THEME_COLOR = '#678';
+const THEME_COLOR = '#2a8ffa';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 

@@ -12,16 +12,18 @@ import {connect} from 'react-redux';
 import actions from '../action/index';
 import Toast from 'react-native-easy-toast'
 import TrendingItem from '../common/TrendingItem';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
     createMaterialTopTabNavigator,
     createAppContainer
 } from "react-navigation";
 import NavigationBar from "../common/NavigationBar";
 import AntDesign from "react-native-vector-icons/AntDesign";
+
 const URL = 'https://github.com/trending/';
-const QUERY_STR = '&sort=stars'; //按照点赞数来排序
-const TITLE_COLOR = '#678';
+import TrendingDialog,{TimeSpans} from "../common/TrendingDialog";
+//const QUERY_STR = '&sort=stars'; //按照点赞数来排序
+const TITLE_COLOR = '#2a8ffa';
 
 type Props = {};
 export default class TrendingPage extends Component<Props> {
@@ -30,11 +32,16 @@ export default class TrendingPage extends Component<Props> {
     constructor(props){
         super(props);
         this.tabNames =['All','C','C#','PHP','JavaScript'];
+        this.state = {
+            //默认显示今天
+            timeSpan : TimeSpans[0],
+        }
     }
     _genTabs(){
         const tabs={};
         this.tabNames.forEach((item,index)=>{
             tabs[`tab${index}`] = {
+
                 screen: props => <TrendingTabPage {...props} tabLabel={item}/>,  //传递数据
                 navigationOptions:{
                     title:item
@@ -42,6 +49,29 @@ export default class TrendingPage extends Component<Props> {
             }
         });
         return tabs;
+    }
+
+
+    //定义趋势标题样式
+    renderTitleView(){
+        return <View>
+            <TouchableOpacity
+                underlayColor='transparent'
+                onPress={() => this.dialog.show()}>
+                <View style={{flexDirection: 'row',alignItems:'center'}}>
+                     <Text style={{
+                         fontSize:18,
+                         color:'#FFFFFF',
+                         fontWeight: '400'
+                     }}>趋势{this.state.timeSpan.showText}</Text>
+                    <MaterialIcons
+                        name={'arrow-drop-down'}
+                        size={22}
+                        style={{color: 'white'}}
+                    />
+                </View>
+            </TouchableOpacity>
+        </View>
     }
 
 
@@ -54,7 +84,7 @@ export default class TrendingPage extends Component<Props> {
                     upperCaseLabel:false, //是否使用标签大写
                     scrollEnabled:true, //是否支持选项卡可以滚动
                     style:{
-                        backgroundColor:"#678", //配置tab的背景色
+                        backgroundColor:"#2a8ffa", //配置tab的背景色
                         height:40 , //设置固定的高度
                     },
                     indicatorStyle:styles.indicatorStyle, //指示器的颜色
@@ -84,6 +114,19 @@ export default class TrendingPage extends Component<Props> {
         </View>
     }
 
+    onSelectTimeSpan(tab) {
+        this.dialog.dismiss();
+        this.setState({
+            timeSpan: tab
+        });
+    }
+
+    renderTrendingDialog(){
+        return <TrendingDialog
+              ref={dialog => this.dialog=dialog}
+              onSelect={tab=>this.onSelectTimeSpan(tab)}
+        />
+    }
 
     render() {
         let statusBar={
@@ -91,16 +134,16 @@ export default class TrendingPage extends Component<Props> {
             barStyle: 'light-content', //不设置也行
         };
         let navigationBar = <NavigationBar
-            title={'趋势'}
+            titleView={this.renderTitleView()}
             statusBar={statusBar}
             style={{backgroundColor:TITLE_COLOR}}
-            rightButton={this.getRightButton()}
         />;
 
         const TabNavigator = this._tabTopNavigator();
         return <View style={{flex: 1}}>
             {navigationBar}
             <TabNavigator/>
+            {this.renderTrendingDialog()}
         </View>
 
     }

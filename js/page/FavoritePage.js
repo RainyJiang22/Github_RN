@@ -12,7 +12,7 @@ import actions from "../action";
 import {connect} from "react-redux";
 import NavigationBar from "../common/NavigationBar";
 
-const THEME_COLOR = '#678';
+const THEME_COLOR = '#2a8ffa';
 type Props = {};
 class FavoritePage extends Component<Props> {
     render() {

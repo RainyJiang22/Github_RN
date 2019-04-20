@@ -8,7 +8,7 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {DeviceInfo} from 'react-native';
+//import {DeviceInfo} from 'react-native';
 
 import PopularPage from '../page/PopularPage';
 import TrendingPage from '../page/TrendingPage';
