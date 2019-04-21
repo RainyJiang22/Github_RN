@@ -46,6 +46,7 @@ export default class NavigationBar extends Component{
         let titleView = this.props.titleView ? this.props.titleView :
             <Text ellipsizeMode="head" numberOfLines={1} style={styles.title}>{this.props.title}</Text>;
 
+        //根据需求隐藏NavigationBar左右按钮
         let content = this.props.hide ? null :
             <View style={styles.navBar}>
                 {this.getButtonElement(this.props.leftButton)}

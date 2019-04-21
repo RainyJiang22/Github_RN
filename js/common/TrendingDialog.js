@@ -4,8 +4,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import TimeSpan from '../model/TimeSpan'
 
 export const TimeSpans = [new TimeSpan('今 天', 'since=daily'),
-    new TimeSpan('本 周', 'since=weekly'), new TimeSpan('本 月', 'since=monthly')]
+    new TimeSpan('本 周', 'since=weekly'), new TimeSpan('本 月', 'since=monthly')];
 export default class TrendingDialog extends Component {
+   //全局定义state
     state = {
         visible: false,
     };

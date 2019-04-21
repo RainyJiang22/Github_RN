@@ -107,6 +107,29 @@ export  default createAppContainer(createSwitchNavigator({
 
 * 使用react-native中的modal弹窗组件
 
+* 优化tabBar的效率，这里使用了DeviceEventEimtter
+1. 首先先导入进来，它是在React-native，详细可以查看React-native官方文档
+[☞详情前点击](https://facebook.github.io/react-native/docs/native-modules-android#sending-events-to-javascript)
+2. 大概实现方式如下：
+```
+ componentDidMount() {
+        this.loadData();
+        this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE,(timeSpan) =>{
+            this.timeSpan  = timeSpan;
+            this.loadData();
+        });
+    }
+ ```
+3. 同时还要调用componentWillUnmount方法进行remove
+```
+ componentWillUnmount() {
+           if (this.timeSpanChangeListener){
+               this.timeSpanChangeListener.remove();
+           }
+    }
+```
+
+
 ## 网络编程技术
 1. RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美
 2. fetch规范于JQuery.ajax()主要有两种方式的不同

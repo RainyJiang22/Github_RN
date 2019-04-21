@@ -31,6 +31,7 @@ export default class PopularPage extends Component<Props> {
   constructor(props){
     super(props);
     this.tabNames =['Java','Android','iOS','React','React Native','PHP'];
+    console.disableYellowBox = true; //取消Warning界面
   }
   _genTabs(){
     const tabs={};

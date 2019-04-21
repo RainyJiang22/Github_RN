@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, FlatList, RefreshControl, ActivityIndicator, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, FlatList, RefreshControl, ActivityIndicator, TouchableOpacity, DeviceEventEmitter} from 'react-native';
 import {connect} from 'react-redux';
 import actions from '../action/index';
 import Toast from 'react-native-easy-toast'
@@ -21,20 +21,22 @@ import {
 import NavigationBar from "../common/NavigationBar";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
+
 const URL = 'https://github.com/trending/';
-import TrendingDialog,{TimeSpans} from "../common/TrendingDialog"
+import TrendingDialogs,{TimeSpans} from "../common/TrendingDialog"
 //const QUERY_STR = '&sort=stars'; //按照点赞数来排序
 const TITLE_COLOR = '#2a8ffa';
+const EVENT_TYPE_TIME_SPAN_CHANGE =  'EVENT_TYPE_TIME_SPAN_CHANGE';
 
 type Props = {};
 export default class TrendingPage extends Component<Props> {
     //默认显示今天
    // timeSpan:TimeSpans[0];
 
-
     //顶部导航动态显示
     constructor(props){
         super(props);
+        console.disableYellowBox = true; //取消Warning界面
         this.tabNames =['All','C','C#','PHP','JavaScript'];
         this.state = {
             //默认显示今天
@@ -80,28 +82,53 @@ export default class TrendingPage extends Component<Props> {
     }
 
 
-    //react-navigation3.x的特性
-    _tabTopNavigator(){
-        const TabNavigator = createMaterialTopTabNavigator(
-            this._genTabs(),{
-                tabBarOptions:{
-                    tabStyle:styles.tableStyle,
-                    upperCaseLabel:false, //是否使用标签大写
-                    scrollEnabled:true, //是否支持选项卡可以滚动
-                    style:{
-                        backgroundColor:"#2a8ffa", //配置tab的背景色
-                        height:40 , //设置固定的高度
-                    },
-                    indicatorStyle:styles.indicatorStyle, //指示器的颜色
-                    labelStyle:styles.labelStyle, //文字的样式
+   //对标题tabNavigation进行优化，防止变更趋势时间的时候，在一次被动态加载
+    //优化效率：根据需要选择是否重新创建建TabNavigator，通常tab改变后才重新创建
+    //还在测试中
+   _tabNav(){
+        if (!this.tabNav){
+            this.tabNav = createAppContainer(createMaterialTopTabNavigator(
+                this._genTabs(),{
+                    tabBarOptions:{
+                        tabStyle:styles.tableStyle,
+                        upperCaseLabel:false, //是否使用标签大写
+                        scrollEnabled:true, //是否支持选项卡可以滚动
+                        style:{
+                            backgroundColor:"#2a8ffa", //配置tab的背景色
+                            height:40 , //设置固定的高度
+                        },
+                        indicatorStyle:styles.indicatorStyle, //指示器的颜色
+                        labelStyle:styles.labelStyle, //文字的样式
 
+                    }
                 }
-            }
-        );
-        return  createAppContainer(TabNavigator);
-    }
+            ));
+        }
+        return this.tabNav;
+   }
 
-    //获取右边按钮
+    //react-navigation3.x的特性
+    // _tabTopNavigator(){
+    //         const TabNavigator = createMaterialTopTabNavigator(
+    //             this._genTabs(),{
+    //                 tabBarOptions:{
+    //                     tabStyle:styles.tableStyle,
+    //                     upperCaseLabel:false, //是否使用标签大写
+    //                     scrollEnabled:true, //是否支持选项卡可以滚动
+    //                     style:{
+    //                         backgroundColor:"#2a8ffa", //配置tab的背景色
+    //                         height:40 , //设置固定的高度
+    //                     },
+    //                     indicatorStyle:styles.indicatorStyle, //指示器的颜色
+    //                     labelStyle:styles.labelStyle, //文字的样式
+    //
+    //                 }
+    //             }
+    //         );
+    //         return createAppContainer(TabNavigator);
+    //     }
+
+    //获取右边按钮(搜索按钮)
     getRightButton(){
         return <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
@@ -124,12 +151,13 @@ export default class TrendingPage extends Component<Props> {
         this.setState({
             timeSpan: tab
         });
+        DeviceEventEmitter.emit(EVENT_TYPE_TIME_SPAN_CHANGE,tab);
     }
 
     renderTrendingDialog(){
-        return <TrendingDialog
+        return <TrendingDialogs
               ref={dialog => this.dialog=dialog}
-              onSelect={tab=>this.onSelectTimeSpan(tab)}
+              onSelect={tab => this.onSelectTimeSpan(tab)}
         />
     }
 
@@ -144,7 +172,8 @@ export default class TrendingPage extends Component<Props> {
             style={{backgroundColor:TITLE_COLOR}}
         />;
 
-        const TabNavigator = this._tabTopNavigator();
+        const TabNavigator = this._tabNav();
+       // const TabNavigator = this._tabTopNavigator();
         return <View style={{flex: 1}}>
             {navigationBar}
             <TabNavigator/>
@@ -154,7 +183,7 @@ export default class TrendingPage extends Component<Props> {
     }
 }
 
-const pageSize = 10;//设为常量，防止修改
+const pageSize = 10;//设为常量，防止修改，每次加载的列表数
 class TrendingTab extends Component<Props> {
     constructor(props){
         super(props);
@@ -164,6 +193,16 @@ class TrendingTab extends Component<Props> {
     }
     componentDidMount() {
         this.loadData();
+        this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE,(timeSpan) =>{
+            this.timeSpan  = timeSpan;
+            this.loadData();
+        });
+    }
+
+    componentWillUnmount() {
+           if (this.timeSpanChangeListener){
+               this.timeSpanChangeListener.remove();
+           }
     }
 
     loadData(loadMore){
@@ -202,6 +241,7 @@ class TrendingTab extends Component<Props> {
     }
 
     genFetchUrl(key) {
+        //url加入了trending页面后带的参数
         return URL + key + '?' + this.timeSpan.searchText;
     }
 
@@ -245,6 +285,8 @@ class TrendingTab extends Component<Props> {
                         />
                     }
 
+                    //进行相应的优化，减少加载时间，避免重复更新
+
                     //这里是解决下拉加载重复更新，每次只显示自定义pageSize，我这里是一次加载10个数据，
                     //下拉加载更多的优化
                     ListFooterComponent={()=> this.genIndicator()}
@@ -263,7 +305,7 @@ class TrendingTab extends Component<Props> {
                         console.log('---onMomentumScrollBegin-----')
                     }}
                 />
-
+                {/*弹出Toast*/}
                 <Toast
                     ref={'toast'}
                     position={'center'}
