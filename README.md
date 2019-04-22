@@ -1,7 +1,7 @@
 # 基于React-Native混合开发的Github客户端APP
 打造一款基于React-Native混合开发的Github客户端APP
 
-[![Nodejs](https://img.shields.io/badge/v10.15.3-nodejs-brightgreen.svg)](https://nodejs.org/en/download/)
+[![Nodejs](https://img.shields.io/badge/nodejs-v10.15.3-brightgreen.svg)](https://nodejs.org/en/download/)
 [![npm](https://img.shields.io/badge/npm-v6.4.1-orange.svg)](https://www.npmjs.com/package/npm)
 
 
@@ -101,6 +101,32 @@ export  default createAppContainer(createSwitchNavigator({
 * React-native中自带的WebView组件用于显示网络视图
 1. 在state中定义了加载的url与页面缩放方式
 2. 在WebView中加载javascript并执行
+3. 进行WebView中进行相关物理键返回处理，可以将相关模块单独分离开来
+```
+/**
+ * Android物理回退键处理
+ */
+export default class BackPressComponent {
+    constructor(props) {
+        this._hardwareBackPress = this.onHardwareBackPress.bind(this);
+        this.props = props;
+    }
+
+    componentDidMount() {
+        if (this.props.backPress) BackHandler.addEventListener('hardwareBackPress', this._hardwareBackPress);
+    }
+
+    componentWillUnmount() {
+        if (this.props.backPress) BackHandler.removeEventListener('hardwareBackPress', this._hardwareBackPress);
+    }
+
+    onHardwareBackPress(e) {
+        return this.props.backPress(e);
+    }
+}
+```
+通过公共模块的调用，可以在任何界面进行调用
+
 
 * 在React-native显示html组件可以使用React-native htmlview
 [☞详情前点击](https://www.npmjs.com/package/react-native-htmlview)

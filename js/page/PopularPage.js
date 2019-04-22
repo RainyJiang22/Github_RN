@@ -20,6 +20,8 @@ import {
 } from "react-navigation";
 import NavigationBar from "../common/NavigationBar";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import Foundation from 'react-native-vector-icons/Foundation';
+import NavigationUtil from "../navigator/NavigationUtil";
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars'; //按照点赞数来排序
 const TITLE_COLOR = '#2a8ffa';
@@ -75,13 +77,21 @@ export default class PopularPage extends Component<Props> {
                 onPress={() => {
                 }}
             >
-                <View style={{padding:5,marginRight: 8}}>
-                    <AntDesign
-                        name={'search1'}
+                <View style={{padding:5,marginRight: 8,flexDirection:'row'}}>
+                    <View style={{marginRight: 12}}>
+                        <AntDesign
+                            name={'search1'}
+                            size={21}
+                            style={{color:'white'}}
+                        />
+                    </View>
+                    <Foundation
+                        name={'align-right'}
                         size={21}
                         style={{color:'white'}}
                     />
                 </View>
+
             </TouchableOpacity>
         </View>
     }
@@ -163,7 +173,9 @@ class PopularTab extends Component<Props> {
        return <PopularItem
           item={item}
           onSelect={()=>{
-
+              NavigationUtil.goPage({
+                  projectModel: item
+              },'DetailPage')
           }}
        />
     }

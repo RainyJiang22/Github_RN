@@ -2,7 +2,7 @@ import Types from '../types';
 import DataStore, {FLAG_STORAGE} from '../../expand/dao/DataStore';
 import {handleData}  from '../ActionUtil';
 /**
- * 获取最热数据的异步action
+ * 获取趋势数据的异步action
  * @param storeName
  * @param url
  */

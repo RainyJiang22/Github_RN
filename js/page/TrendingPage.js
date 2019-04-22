@@ -13,7 +13,7 @@ import actions from '../action/index';
 import Toast from 'react-native-easy-toast'
 import TrendingItem from '../common/TrendingItem';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import Foundation from 'react-native-vector-icons/Foundation';
 import {
     createMaterialTopTabNavigator,
     createAppContainer
@@ -24,6 +24,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 
 const URL = 'https://github.com/trending/';
 import TrendingDialogs,{TimeSpans} from "../common/TrendingDialog"
+import NavigationUtil from "../navigator/NavigationUtil";
 //const QUERY_STR = '&sort=stars'; //按照点赞数来排序
 const TITLE_COLOR = '#2a8ffa';
 const EVENT_TYPE_TIME_SPAN_CHANGE =  'EVENT_TYPE_TIME_SPAN_CHANGE';
@@ -82,6 +83,10 @@ export default class TrendingPage extends Component<Props> {
     }
 
 
+    //进行优化效率：根据需要选择是否重新创建TabNavigator，通常需要改变才能够创建
+    //这里需要动态创建
+
+
    //对标题tabNavigation进行优化，防止变更趋势时间的时候，在一次被动态加载
     //优化效率：根据需要选择是否重新创建建TabNavigator，通常tab改变后才重新创建
     //还在测试中
@@ -107,26 +112,26 @@ export default class TrendingPage extends Component<Props> {
         return this.tabNav;
    }
 
+
     //react-navigation3.x的特性
-    // _tabTopNavigator(){
-    //         const TabNavigator = createMaterialTopTabNavigator(
-    //             this._genTabs(),{
-    //                 tabBarOptions:{
-    //                     tabStyle:styles.tableStyle,
-    //                     upperCaseLabel:false, //是否使用标签大写
-    //                     scrollEnabled:true, //是否支持选项卡可以滚动
-    //                     style:{
-    //                         backgroundColor:"#2a8ffa", //配置tab的背景色
-    //                         height:40 , //设置固定的高度
-    //                     },
-    //                     indicatorStyle:styles.indicatorStyle, //指示器的颜色
-    //                     labelStyle:styles.labelStyle, //文字的样式
-    //
-    //                 }
-    //             }
-    //         );
-    //         return createAppContainer(TabNavigator);
-    //     }
+   _tabNavigator(){
+        const TabNavigator = createMaterialTopTabNavigator(
+            this._genTabs(),{
+               tabBarOptions:{
+                   tabStyle:styles.tableStyle, //是否使用相关样式
+                   upperCaseLabel:false, //是否使用标签大写
+                   scrollEnabled:true, //是否支持选项卡可以滚动
+                   styles:{
+                       backgroundColor:"#2a8ffa",
+                       height:40,  //设置固定的高度
+                   },
+                   indicatorStyle:styles.indicatorStyle, //指示器的颜色
+                   labelStyle:styles.labelStyle, //文字样式
+               }
+        });
+        return createAppContainer(TabNavigator);
+   }
+
 
     //获取右边按钮(搜索按钮)
     getRightButton(){
@@ -135,9 +140,9 @@ export default class TrendingPage extends Component<Props> {
                 onPress={() => {
                 }}
             >
-                <View style={{padding:5,marginRight: 8}}>
-                    <AntDesign
-                        name={'search1'}
+                <View style={{padding:5,marginRight: 10}}>
+                    <Foundation
+                        name={'align-right'}
                         size={21}
                         style={{color:'white'}}
                     />
@@ -170,6 +175,7 @@ export default class TrendingPage extends Component<Props> {
             titleView={this.renderTitleView()}
             statusBar={statusBar}
             style={{backgroundColor:TITLE_COLOR}}
+            rightButton={this.getRightButton()}
         />;
 
         const TabNavigator = this._tabNav();
@@ -250,7 +256,9 @@ class TrendingTab extends Component<Props> {
         return <TrendingItem
             item={item}
             onSelect={()=>{
-
+                NavigationUtil.goPage({
+                       projectModel: item,
+                    },'DetailPage');
             }}
         />
     }
