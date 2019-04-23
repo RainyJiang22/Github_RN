@@ -22,10 +22,13 @@ import NavigationBar from "../common/NavigationBar";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Foundation from 'react-native-vector-icons/Foundation';
 import NavigationUtil from "../navigator/NavigationUtil";
+import FavoriteDao from "../expand/dao/FavoriteDao";
+import {FLAG_STORAGE} from "../expand/dao/DataStore";
+import FavoriteUtil from "../util/FavoriteUtil";
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars'; //按照点赞数来排序
 const TITLE_COLOR = '#2a8ffa';
-
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 type Props = {};
 export default class PopularPage extends Component<Props> {
 
@@ -70,7 +73,48 @@ export default class PopularPage extends Component<Props> {
     return  createAppContainer(TabNavigator);
   }
 
-  //获取右边按钮
+    //优化效率：根据需要选择是否重新创建建TabNavigator，通常tab改变后才重新创建
+
+    // _tabNav(){
+    //       if (!this.tabNav) {
+    //           this.tabNav = createAppContainer(createMaterialTopTabNavigator(
+    //               this._genTabs(), {
+    //                   tabBarOptions: {
+    //                       tabStyle: styles.tabStyle,
+    //                       upperCaseLabel: false,
+    //                       scrollEnabled: true,
+    //                       styles: {
+    //                           backgroundColor: '#2a8ffa',
+    //                           height: 40
+    //                       }
+    //                   }
+    //               }
+    //           ));
+    //           return  this.tabNav;
+    //       }
+    //
+    //           //
+    //           // const TabNavigator = createMaterialTopTabNavigator(
+    //           //     this._genTabs(),{
+    //           //         tabBarOptions:{
+    //           //             tabStyle:styles.tableStyle, //是否使用相关样式
+    //           //             upperCaseLabel:false, //是否使用标签大写
+    //           //             scrollEnabled:true, //是否支持选项卡可以滚动
+    //           //             styles:{
+    //           //                 backgroundColor:"#2a8ffa",
+    //           //                 height:40,  //设置固定的高度
+    //           //             },
+    //           //             indicatorStyle:styles.indicatorStyle, //指示器的颜色
+    //           //             labelStyle:styles.labelStyle, //文字样式
+    //           //         }
+    //           //     });
+    //           // return createAppContainer(TabNavigator)
+    // }
+
+
+
+
+  //获取右边按钮,搜索和菜单
     getRightButton(){
         return <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
@@ -135,12 +179,12 @@ class PopularTab extends Component<Props> {
        const url = this.genFetchUrl(this.storeName);
        if (loadMore){
            //下拉加载更多
-           onLoadMorePopular(this.storeName, ++store.pageIndex,pageSize,store.items,callback=>{
+           onLoadMorePopular(this.storeName, ++store.pageIndex,pageSize,store.items,favoriteDao,callback=>{
                this.refs.toast.show('没有更多了');
            })
        } else{
            //否则上拉刷新
-           onLoadPopularData(this.storeName,url,pageSize)
+           onLoadPopularData(this.storeName,url,pageSize,favoriteDao)
        }
 
    }
@@ -171,12 +215,13 @@ class PopularTab extends Component<Props> {
     renderItem(data){
        const item = data.item;
        return <PopularItem
-          item={item}
+          projectModel ={item}
           onSelect={()=>{
-              NavigationUtil.goPage({
-                  projectModel: item
-              },'DetailPage')
+              // NavigationUtil.goPage({
+              //     projectModel: item
+              // },'DetailPage')
           }}
+          onFavorite={(item,isFavorite) => FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,FLAG_STORAGE.flag_popular)}
        />
     }
 
@@ -198,7 +243,7 @@ class PopularTab extends Component<Props> {
             <FlatList
                 data={store.projectModels}
                 renderItem={data=>this.renderItem(data)}
-                keyExtractor={item=>""+ item.id}
+                keyExtractor={item=>""+ item.item.id}
                 refreshControl={
                     <RefreshControl
                         title={'Loading'}
@@ -243,8 +288,8 @@ const mapStateToProps = state => ({
     popular: state.popular
 });
 const mapDispatchToProps =  dispatch => ({
-   onLoadPopularData:(storeName,url)=> dispatch(actions.onLoadPopularData(storeName,url)),
-    onLoadMorePopular: (storeName,pageIndex,pageSize,items,callback) =>  dispatch(actions.onLoadMorePopular(storeName,pageIndex,pageSize,items,callback))
+   onLoadPopularData:(storeName,url,pageSize,favoriteDao)=> dispatch(actions.onLoadPopularData(storeName,url,pageSize,favoriteDao)),
+    onLoadMorePopular: (storeName,pageIndex,pageSize,items,favoriteDao,callback) =>  dispatch(actions.onLoadMorePopular(storeName,pageIndex,pageSize,items,favoriteDao,callback))
 });
 
 //创建函数

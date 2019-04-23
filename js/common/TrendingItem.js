@@ -3,26 +3,28 @@ import {Image,StyleSheet,Text,View} from 'react-native';
 import {TouchableOpacity} from "react-native-gesture-handler";
 import HTMLView from 'react-native-htmlview';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import BaseItem from "./BaseItem";
 
-export default class TrendingItem extends Component{
+export default class TrendingItem extends BaseItem{
       render(){
-         const {item} = this.props;
+          const {projectModel} = this.props;
+         const {item} = projectModel;
          if (!item ){
              return null;
          }
-         let favoriteButton=
-             <TouchableOpacity
-                 style={{padding: 6,}}
-                 onPress={() => {
-                 }}
-                 underlayColor={'transparent'}
-             >
-                 <FontAwesome
-                   name={'star-o'}
-                   size={26}
-                   style={{color:'#2a8ffa'}}
-                 />
-             </TouchableOpacity>;
+         // let favoriteButton=
+         //     <TouchableOpacity
+         //         style={{padding: 6,}}
+         //         onPress={() => {
+         //         }}
+         //         underlayColor={'transparent'}
+         //     >
+         //         <FontAwesome
+         //           name={'star-o'}
+         //           size={26}
+         //           style={{color:'#2a8ffa'}}
+         //         />
+         //     </TouchableOpacity>;
           let description = '<p>' + item.description + '</p>';
          return (
            <TouchableOpacity
@@ -57,7 +59,7 @@ export default class TrendingItem extends Component{
                               />
                           })}
                       </View>
-                      {favoriteButton}
+                      {this._favoriteIcon()}
                   </View>
                </View>
 

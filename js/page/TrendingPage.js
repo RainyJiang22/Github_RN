@@ -25,10 +25,13 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 const URL = 'https://github.com/trending/';
 import TrendingDialogs,{TimeSpans} from "../common/TrendingDialog"
 import NavigationUtil from "../navigator/NavigationUtil";
+import FavoriteUtil from "../util/FavoriteUtil";
+import {FLAG_STORAGE} from "../expand/dao/DataStore";
+import FavoriteDao from "../expand/dao/FavoriteDao";
 //const QUERY_STR = '&sort=stars'; //按照点赞数来排序
 const TITLE_COLOR = '#2a8ffa';
 const EVENT_TYPE_TIME_SPAN_CHANGE =  'EVENT_TYPE_TIME_SPAN_CHANGE';
-
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
 type Props = {};
 export default class TrendingPage extends Component<Props> {
     //默认显示今天
@@ -217,12 +220,12 @@ class TrendingTab extends Component<Props> {
         const url = this.genFetchUrl(this.storeName);
         if (loadMore){
             //下拉加载更多
-            onLoadMoreTrending(this.storeName, ++store.pageIndex,pageSize,store.items,callback=>{
+            onLoadMoreTrending(this.storeName, ++store.pageIndex,pageSize,store.items,favoriteDao,callback=>{
                 this.refs.toast.show('没有更多了');
             })
         } else{
             //否则上拉刷新
-            onRefreshTrending(this.storeName,url,pageSize)
+            onRefreshTrending(this.storeName,url,pageSize,favoriteDao)
         }
 
     }
@@ -254,12 +257,13 @@ class TrendingTab extends Component<Props> {
     renderItem(data){
         const item = data.item;
         return <TrendingItem
-            item={item}
+            projectModel = {item}
             onSelect={()=>{
-                NavigationUtil.goPage({
-                       projectModel: item,
-                    },'DetailPage');
+                // NavigationUtil.goPage({
+                //        projectModel: item,
+                //     },'DetailPage');
             }}
+            onFavorite={(item,isFavorite) => FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,FLAG_STORAGE.flag_trending)}
         />
     }
 
@@ -281,7 +285,7 @@ class TrendingTab extends Component<Props> {
                 <FlatList
                     data={store.projectModels}
                     renderItem={data=>this.renderItem(data)}
-                    keyExtractor={item=>""+ (item.id || item.fullName)}
+                    keyExtractor={item=>""+ (item.item.id || item.item.fullName)}
                     refreshControl={
                         <RefreshControl
                             title={'Loading'}
@@ -328,8 +332,8 @@ const mapStateToProps = state => ({
     trending: state.trending
 });
 const mapDispatchToProps =  dispatch => ({
-    onRefreshTrending:(storeName,url)=> dispatch(actions.onRefreshTrending(storeName,url)),
-    onLoadMoreTrending: (storeName,pageIndex,pageSize,items,callback) =>  dispatch(actions.onLoadMoreTrending(storeName,pageIndex,pageSize,items,callback))
+    onRefreshTrending:(storeName,url,pageSize,favoriteDao)=> dispatch(actions.onRefreshTrending(storeName,url,pageSize,favoriteDao)),
+    onLoadMoreTrending: (storeName,pageIndex,pageSize,items,favoriteDao,callback) =>  dispatch(actions.onLoadMoreTrending(storeName,pageIndex,pageSize,items,favoriteDao,callback))
 });
 
 //创建函数
