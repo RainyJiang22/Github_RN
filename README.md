@@ -155,6 +155,40 @@ export default class BackPressComponent {
     }
 ```
 
+* 收藏模块开发
+1. 封装FavoriteDao以及多数据存储设计思想
+2. 使用React的tatic-lifecycle-method
+这里需要注意的是新版做了相应的变动，将之前的函数变更了一下
+[!详情请看GitHub上的项目](https://github.com/reactjs/rfcs/blob/master/text/0006-static-lifecycle-methods.md)
+大致变动如下：
+```
+ static getDerivedStateFromProps(nextProps, prevState) {
+    // Called after a component is instantiated or before it receives new props.
+    // Return an object to update state in response to prop changes.
+    // Return null to indicate no change to state.
+  }
+```
+3. 封装与继承BaseItem实现代码复用
+4. 妙用callback解决Item跨组件,在详情页和列表页改变收藏状态时，可以实时变更
+在点击的时候传入回调callback
+```
+         onSelect={(callback)=>{
+                NavigationUtil.goPage({
+                    projectModel: item,
+                    flag:FLAG_STORAGE.flag_trending,
+                    callback,
+                    },'DetailPage');
+            }}
+```
+并且在详情页面，进行接收callback，更新item当前状态
+```
+ const {projectModel,callback}=this.params;
+        const isFavorite=projectModel.isFavorite=!projectModel.isFavorite;
+        callback(isFavorite);//更新Item的收藏状态
+```
+5. 跨界面通讯解决方案EventBus的使用
+
+
 
 ## 网络编程技术
 1. RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美
