@@ -15,6 +15,7 @@ const logger = store => next => action =>{
    return result;
 };
 
+//中间件
 const middlewares = [
     middleware,
     logger,

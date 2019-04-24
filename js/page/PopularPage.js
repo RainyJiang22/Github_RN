@@ -25,6 +25,8 @@ import NavigationUtil from "../navigator/NavigationUtil";
 import FavoriteDao from "../expand/dao/FavoriteDao";
 import {FLAG_STORAGE} from "../expand/dao/DataStore";
 import FavoriteUtil from "../util/FavoriteUtil";
+import EventBus from "react-native-event-bus";
+import EventTypes from "../util/EventTypes";
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars'; //按照点赞数来排序
 const TITLE_COLOR = '#2a8ffa';
@@ -168,13 +170,29 @@ class PopularTab extends Component<Props> {
        super(props);
        const {tabLabel} = this.props;
        this.storeName = tabLabel;
+       this.isFavoriteChanged = false;
    }
    componentDidMount() {
        this.loadData();
+       //1.底部tab监听,收藏页面发送变化的监听
+       EventBus.getInstance().addListener(EventTypes.favorite_changed_popular, this.favoriteChangeListener = () => {
+           this.isFavoriteChanged = true;
+       });
+       EventBus.getInstance().addListener(EventTypes.bottom_tab_select, this.bottomTabSelectListener = (data) => {
+           if (data.to === 0 && this.isFavoriteChanged) {
+               this.loadData(null, true);
+           }
+       })
    }
 
-   loadData(loadMore){
-       const {onLoadPopularData,onLoadMorePopular} = this.props;
+    componentWillUnmount() {
+        EventBus.getInstance().removeListener(this.favoriteChangeListener);
+        EventBus.getInstance().removeListener(this.bottomTabSelectListener);
+    }
+
+
+    loadData(loadMore,refreshFavorite){
+       const {onLoadPopularData,onLoadMorePopular,onFlushPopularFavorite} = this.props;
        const store = this._store();
        const url = this.genFetchUrl(this.storeName);
        if (loadMore){
@@ -182,6 +200,9 @@ class PopularTab extends Component<Props> {
            onLoadMorePopular(this.storeName, ++store.pageIndex,pageSize,store.items,favoriteDao,callback=>{
                this.refs.toast.show('没有更多了');
            })
+           //刷新收藏状态
+       }else if(refreshFavorite){
+         onFlushPopularFavorite(this.storeName,store.pageIndex,pageSize,store.items);
        } else{
            //否则上拉刷新
            onLoadPopularData(this.storeName,url,pageSize,favoriteDao)
@@ -216,10 +237,12 @@ class PopularTab extends Component<Props> {
        const item = data.item;
        return <PopularItem
           projectModel ={item}
-          onSelect={()=>{
-              // NavigationUtil.goPage({
-              //     projectModel: item
-              // },'DetailPage')
+          onSelect={(callback)=>{
+              NavigationUtil.goPage({
+                  projectModel: item,
+                  flag:FLAG_STORAGE.flag_popular,
+                  callback,
+              },'DetailPage')
           }}
           onFavorite={(item,isFavorite) => FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,FLAG_STORAGE.flag_popular)}
        />
@@ -289,7 +312,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps =  dispatch => ({
    onLoadPopularData:(storeName,url,pageSize,favoriteDao)=> dispatch(actions.onLoadPopularData(storeName,url,pageSize,favoriteDao)),
-    onLoadMorePopular: (storeName,pageIndex,pageSize,items,favoriteDao,callback) =>  dispatch(actions.onLoadMorePopular(storeName,pageIndex,pageSize,items,favoriteDao,callback))
+    onLoadMorePopular: (storeName,pageIndex,pageSize,items,favoriteDao,callback) =>  dispatch(actions.onLoadMorePopular(storeName,pageIndex,pageSize,items,favoriteDao,callback)),
+    onFlushPopularFavorite: (storeName, pageIndex, pageSize, items, favoriteDao) => dispatch(actions.onFlushPopularFavorite(storeName, pageIndex, pageSize, items, favoriteDao)),
 });
 
 //创建函数

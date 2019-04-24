@@ -41,6 +41,14 @@ export default class BaseItem extends Component {
         })
     }
 
+    //刷新item状态
+    onItemClick() {
+        this.props.onSelect(isFavorite => {
+            this.setFavoriteSate(isFavorite);
+        });
+    }
+
+
     onPressFavorite(){
          this.setFavoriteSate(!this.state.isFavorite);
          this.props.onFavorite(this.props.projectModel.item,!this.state.isFavorite);

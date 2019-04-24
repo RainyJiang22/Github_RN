@@ -21,6 +21,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import  Entypo from 'react-native-vector-icons/Entypo';
 import {BottomTabBar} from "react-navigation";
+import EventBus from "react-native-event-bus";
+import EventTypes from "../util/EventTypes";
 
 
 const TABS = {  //在这里配置路由
@@ -113,7 +115,15 @@ class DynamicTabNavigator extends Component<Props> {
      */
     // NavigationUtil.navigation = this.props.navigation;
       const Tab = this._tabNavigator();
-      return <Tab/>
+      return <Tab
+          onNavigationStateChange={(prevState, newState, action)=>{
+                   EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select,{ //发送底部tab切换的事件
+                     from: prevState.index,
+                     to:newState.index,
+                   })
+             }}
+      />
+
   }
 }
 

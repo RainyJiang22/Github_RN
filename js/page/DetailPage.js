@@ -15,19 +15,22 @@ import NavigationUtil from "../navigator/NavigationUtil";
 import BackPressComponent from "../common/BackPressComponent";
 const THEME_COLOR = '#2a8ffa';
 const TRENDING_URL = 'https://github.com/';
+import FavoriteDao from "../expand/dao/FavoriteDao";
 
 type Props = {};
 export default class DetailPage extends Component<Props> {
   constructor(props){
     super(props);
     this.params = this.props.navigation.state.params;
-    const {projectModel} = this.params;
-    this.url = projectModel.html_url || TRENDING_URL + projectModel.fullName;
-    const title = projectModel.full_name || projectModel.fullName;
+    const {projectModel,flag} = this.params;
+    this.favoriteDao = new FavoriteDao(flag);
+    this.url = projectModel.item.html_url || TRENDING_URL + projectModel.item.fullName;
+    const title = projectModel.item.full_name || projectModel.item.fullName;
     this.state ={
          title:title,
          url: this.url,
          canGoBack:false,  //是否可以返回到上一页
+         isFavorite : projectModel.isFavorite,
     };
     this.backPress = new BackPressComponent({backPress:()=> this.onBackPress()})
   }
@@ -53,17 +56,31 @@ export default class DetailPage extends Component<Props> {
        }
    }
 
-
+   //点击收藏状态
+    onFavoriteButtonClick(){
+        const {projectModel,callback}=this.params;
+        const isFavorite=projectModel.isFavorite=!projectModel.isFavorite;
+        callback(isFavorite);//更新Item的收藏状态
+        this.setState({
+            isFavorite:isFavorite,
+        });
+        let key = projectModel.item.fullName ? projectModel.item.fullName : projectModel.item.id.toString();
+        if (projectModel.isFavorite) {
+            this.favoriteDao.saveFavoriteItem(key, JSON.stringify(projectModel.item));
+        } else {
+            this.favoriteDao.removeFavoriteItem(key);
+        }
+    }
    //右边按钮
   renderRightButton(){
     return (
         <View style={{flexDirection: 'row'}}>
       <TouchableOpacity
           onPress={() =>{
-
+                this.onFavoriteButtonClick()
           }}>
         <FontAwesome
-            name={'star-o'}
+            name={this.state.isFavorite ? 'star' : 'star-o'}
             size={20}
             style={{color: 'white', marginRight: 10}}
         />
@@ -86,8 +103,9 @@ export default class DetailPage extends Component<Props> {
   }
 
   render() {
+
       const titleLayoutStyle = this.state.title.length > 20 ? {paddingRight: 30} : null;
-    let navigationBar = <NavigationBar
+      let navigationBar = <NavigationBar
         title={this.state.title}
         style={{backgroundColor:THEME_COLOR}}
         titleLayoutStyle={titleLayoutStyle} //标题显示适配
@@ -101,7 +119,7 @@ export default class DetailPage extends Component<Props> {
           <WebView
               ref={webView => this.webView = webView}
               startInLoadingState={true}
-              onNavigationStateChange={e=> this.onNavigationStateChange(e)}
+              onNavigationStateChange={e => this.onNavigationStateChange(e)}
               source={{uri:this.state.url}}
           />
       </View>

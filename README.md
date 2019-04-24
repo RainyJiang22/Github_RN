@@ -187,7 +187,8 @@ export default class BackPressComponent {
         callback(isFavorite);//更新Item的收藏状态
 ```
 5. 跨界面通讯解决方案EventBus的使用
-
+需要用到第方组件，要导入进来`npm i react-native-event-bus --save`
+[!详情使用请查看GitHub](https://github.com/crazycodeboy/react-native-event-bus)
 
 
 ## 网络编程技术
