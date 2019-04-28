@@ -11,6 +11,8 @@
 * [技术与框架](#技术与框架)
 * [网络编程技术](#网络编程技术)
 * [数据存储技术](#数据存储技术)
+* [最热模块开发](#最热模块开发)
+* [收藏模块开发](#收藏模块开发)
 * [运行调试](#运行调试)
 
 
@@ -86,6 +88,12 @@ export  default createAppContainer(createSwitchNavigator({
 3. State一旦有变化，Store就会调用监听函数，来更新View;
 4. 可预测，可维护，可测试
 5. [关于redux+navigation的搭建可查看慕课老师的手记](https://www.imooc.com/article/283337)
+6. ps：视图层绑定引入了几个概念：
+  (1)  <Provider>组件：这个组件需要包裹在整个组件树的最外层。这个组件让根组件的所有子孙组件能够轻松的使用connext()方法绑定store
+  (2) connect():这是react-redux提供的一个方法。如果一个组件想要响应状态的变化，就把自己作为参数传给connect（）的结果，connect（）方法会处理与store绑定的细节，并通过selector确定该绑定store中哪一部分的数据。
+  (3) selector: 这是自己编写的一个函数，这个函数声明了你的组件需要整个store中的哪一部分数据作为自己的props
+  (4) dispatch:每当想要改变应用中的状态时，你就要dispatch一个action，这也是唯一改变状态的方法
+
 
 * 离线缓存框架
   1. 提升用户体验
@@ -155,7 +163,19 @@ export default class BackPressComponent {
     }
 ```
 
-* 收藏模块开发
+
+
+## 最热模块开发
+
+1. 基于redux + FlatList实现列表页数据加载
+2. 设计最热模块的state树
+3. 操作异步action与数据流
+3. 动态的设置store和获取store
+4. 灵活应用connect
+5. action和调用进行交互
+6. FaltList的高级应用与加载更多的优化
+
+## 收藏模块开发
 1. 封装FavoriteDao以及多数据存储设计思想
 2. 使用React的tatic-lifecycle-method
 这里需要注意的是新版做了相应的变动，将之前的函数变更了一下
