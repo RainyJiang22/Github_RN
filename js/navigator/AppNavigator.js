@@ -5,12 +5,15 @@ import {createStackNavigator,
 import WelcomePage from '../page/WelcomePage';
 import HomePage from '../page/HomePage';
 import DetailPage from '../page/DetailPage';
+import AboutPage from '../page/about/AboutPage';
 //import FetchDemoPage from '../page/FetchDemoPage';
+import WebViewPage from "../page/WebViewPage";
 import DataStoreDemoPage from  '../page/DataStoreDemoPage';
 import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage';
 import Splash from '../swiper/Splash';
 import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware, createReduxContainer} from 'react-navigation-redux-helpers';
+
 
 export const rootCom = 'Init'; //设置根路由
 
@@ -46,6 +49,19 @@ const MainNavigator = createStackNavigator({
             header:null
         }
     },
+    WebViewPage: {
+        screen: WebViewPage,
+        navigationOptions:{
+            header:null
+        }
+    },
+
+    AboutPage: {
+        screen: AboutPage,
+        navigationOptions:{
+            header:null
+        }
+    },
     AsyncStorageDemoPage: {
         screen: AsyncStorageDemoPage,
         navigationOptions:{
@@ -59,6 +75,7 @@ const MainNavigator = createStackNavigator({
             //    header:null
         }
     },
+
     // FetchDemoPage: {
     //     screen: FetchDemoPage,
     //     navigationOptions:{
@@ -96,7 +113,6 @@ export const middleware = createReactNavigationReduxMiddleware(
      state => state.nav,
      'root'
 );
-
 /**
  * 2.将根导航器组件传递给 reduxifyNavigator,变更为createReduxContainer 函数,
  * 并返回一个将navigation state 和 dispatch 函数作为 props的新组件；

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, StyleSheet, Text, View, TextInput,AsyncStorage} from 'react-native';
 
 type Props = {};
-const  KEY = "save_key"
+const  KEY = "save_key";
 export default class AsyncStorageDemoPage extends Component<Props> {
     constructor(props) {
         super(props);

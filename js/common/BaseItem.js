@@ -3,6 +3,9 @@ import {Image,StyleSheet,Text,View,TouchableOpacity} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {PropTypes} from 'prop-types';
 
+/**
+ * 封装了一些公共逻辑的处理
+ */
 export default class BaseItem extends Component {
     static propTypes = {
         projectModel: PropTypes.object,

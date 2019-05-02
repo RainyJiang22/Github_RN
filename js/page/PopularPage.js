@@ -210,6 +210,10 @@ class PopularTab extends Component<Props> {
 
    }
 
+    genFetchUrl(key) {
+        return URL + key + QUERY_STR;
+    }
+
     /**
      * 获取与当前页面有关的数据
      * @returns {*}
@@ -229,9 +233,7 @@ class PopularTab extends Component<Props> {
         return store;
     }
 
-    genFetchUrl(key) {
-        return URL + key + QUERY_STR;
-    }
+
 
     renderItem(data){
        const item = data.item;

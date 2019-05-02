@@ -13,6 +13,7 @@
 * [数据存储技术](#数据存储技术)
 * [最热模块开发](#最热模块开发)
 * [收藏模块开发](#收藏模块开发)
+* [我的模块开发](#我的模块开发)
 * [运行调试](#运行调试)
 
 
@@ -209,6 +210,14 @@ export default class BackPressComponent {
 5. 跨界面通讯解决方案EventBus的使用
 需要用到第方组件，要导入进来`npm i react-native-event-bus --save`
 [!详情使用请查看GitHub](https://github.com/crazycodeboy/react-native-event-bus)
+
+
+## 我的模块开发
+1. 开发我的模块中我的列表页面
+2. 对WebView进行深度封装，实现简易浏览器
+3. 基于组装者模式进行封装关于页面
+ - 需要使用到react-native-parallax-scroll-view第三方组件
+ - [!详情前点击☞](https://github.com/i6mi6/react-native-parallax-scroll-view)
 
 
 ## 网络编程技术

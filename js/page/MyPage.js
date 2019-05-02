@@ -19,6 +19,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MORE_MENU} from "../common/MORE_MENU";
 import GlobalStyles from "../res/GlobalStyles";
 import ViewUtil from "../util/ViewUtil";
+import NavigationUtil from "../navigator/NavigationUtil";
 
 
 type Props = {};
@@ -47,21 +48,34 @@ class MyPage extends Component<Props> {
         </View>
     }
 
-    getLeftButton(callBack){
-          return <TouchableOpacity
-            style={{padding: 8,paddingLeft:12}}
-              onPress={callBack}>
-              <Ionicons
-                 name={'md-arrow-back'}
-                 size={24}
-                 style={{color:'white'}}
-              />
-
-          </TouchableOpacity>
-    }
+    // getLeftButton(callBack){
+    //       return <TouchableOpacity
+    //         style={{padding: 8,paddingLeft:12}}
+    //           onPress={callBack}>
+    //           <Ionicons
+    //              name={'md-arrow-back'}
+    //              size={24}
+    //              style={{color:'white'}}
+    //           />
+    //
+    //       </TouchableOpacity>
+    // }
 
     onClick(menu){
-
+        let RouteName, params = {};
+        switch (menu) {
+            case MORE_MENU.Tutorial:
+                RouteName='WebViewPage';
+                params.title = '教程';
+                params.url = 'https://facebook.github.io/react-native/';
+                break;
+            case MORE_MENU.About:
+                RouteName='AboutPage';
+                break;
+        }
+        if (RouteName){
+            NavigationUtil.goPage(params,RouteName);
+        }
     }
 
 
@@ -81,7 +95,7 @@ class MyPage extends Component<Props> {
          statusBar={statusBar}
          style={{backgroundColor:THEME_COLOR}}
          rightButton={this.getRightButton()}
-         leftButton={this.getLeftButton()}
+       //  leftButton={this.getLeftButton()}
         />;
 
         return  (
@@ -113,6 +127,7 @@ class MyPage extends Component<Props> {
                         }}/>
                 </TouchableOpacity>
                 <View style={GlobalStyles.line}/>
+                {this.getItem(MORE_MENU.Tutorial)}
                 {/*趋势管理*/}
                 <Text style={styles.groupTitle}>趋势管理</Text>
                 {/*自定义语言*/}

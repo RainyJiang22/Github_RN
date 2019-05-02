@@ -108,7 +108,6 @@ class DynamicTabNavigator extends Component<Props> {
   }
 
   render() {
-
     /**
      * 需要注意的是，navigation已经在homepage进行渲染了，这里不需要重复调用，否则覆盖不能使用
      * @type {react-navigation3.x的特性}
