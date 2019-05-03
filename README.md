@@ -18,6 +18,7 @@
 
 
 
+
 ## 功能与特性
 
 * 支持订阅多种编程语言;
@@ -166,6 +167,7 @@ export default class BackPressComponent {
 
 
 
+
 ## 最热模块开发
 
 1. 基于redux + FlatList实现列表页数据加载
@@ -217,7 +219,10 @@ export default class BackPressComponent {
 2. 对WebView进行深度封装，实现简易浏览器
 3. 基于组装者模式进行封装关于页面
  - 需要使用到react-native-parallax-scroll-view第三方组件
- - [!详情前点击☞](https://github.com/i6mi6/react-native-parallax-scroll-view)
+ - [详情前点击☞](https://github.com/i6mi6/react-native-parallax-scroll-view)
+ 4. Linking 第三方邮箱发送插件
+ 5. 调用React-native中的Clipboard复制剪切板
+
 
 
 ## 网络编程技术

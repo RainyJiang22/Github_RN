@@ -8,6 +8,7 @@ import DetailPage from '../page/DetailPage';
 import AboutPage from '../page/about/AboutPage';
 //import FetchDemoPage from '../page/FetchDemoPage';
 import WebViewPage from "../page/WebViewPage";
+import AboutMyPage from "../page/about/AboutMyPage";
 import DataStoreDemoPage from  '../page/DataStoreDemoPage';
 import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage';
 import Splash from '../swiper/Splash';
@@ -43,6 +44,7 @@ const MainNavigator = createStackNavigator({
             header:null
         }
     },
+    //详细界面
     DetailPage: {
         screen: DetailPage,
         navigationOptions:{
@@ -56,8 +58,17 @@ const MainNavigator = createStackNavigator({
         }
     },
 
+    //关于界面
     AboutPage: {
         screen: AboutPage,
+        navigationOptions:{
+            header:null
+        }
+    },
+
+    //关于作者界面
+    AboutMyPage:{
+        screen:AboutMyPage,
         navigationOptions:{
             header:null
         }

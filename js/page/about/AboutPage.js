@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View,Button,TouchableOpacity,ScrollView} from 'react-native';
+import {View,Linking} from 'react-native';
 import {MORE_MENU} from "../../common/MORE_MENU";
 import GlobalStyles from "../../res/GlobalStyles";
 import ViewUtil from "../../util/ViewUtil";
@@ -41,6 +41,19 @@ export  default  class AboutPage extends Component<Props> {
                 RouteName='WebViewPage';
                 params.title = '教程';
                 params.url = 'https://facebook.github.io/react-native/';
+                break;
+            case MORE_MENU.Feedback:
+                const url = 'mailto:3434481891@qq.com';
+                Linking.canOpenURL(url)
+                    .then(support => {
+                        if (!support) {
+                            console.log('Can\'t handle url: ' + url);
+                        } else {
+                            Linking.openURL(url);
+                        }
+                    }).catch(e => {
+                    console.error('An error occurred', e);
+                });
                 break;
         }
         if (RouteName){
