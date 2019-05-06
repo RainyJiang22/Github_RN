@@ -56,6 +56,7 @@ class HomePage extends Component<Props> {
   }
 }
 
+//订阅
 const mapStateToProps  = state => ({
   nav: state.nav,
 });

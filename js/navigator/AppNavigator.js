@@ -27,6 +27,8 @@ const InitNavigator = createStackNavigator({
     }
 });
 
+
+
 const SplashNavigator = createStackNavigator({
     Splash:{
         screen:Splash,
@@ -73,19 +75,19 @@ const MainNavigator = createStackNavigator({
             header:null
         }
     },
-    AsyncStorageDemoPage: {
-        screen: AsyncStorageDemoPage,
-        navigationOptions:{
-            //    header:null
-        }
-    },
-
-    DataStoreDemoPage: {
-        screen: DataStoreDemoPage,
-        navigationOptions:{
-            //    header:null
-        }
-    },
+    // AsyncStorageDemoPage: {
+    //     screen: AsyncStorageDemoPage,
+    //     navigationOptions:{
+    //         //    header:null
+    //     }
+    // },
+    //
+    // DataStoreDemoPage: {
+    //     screen: DataStoreDemoPage,
+    //     navigationOptions:{
+    //         //    header:null
+    //     }
+    // },
 
     // FetchDemoPage: {
     //     screen: FetchDemoPage,

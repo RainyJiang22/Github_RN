@@ -37,11 +37,21 @@ export  default  class AboutPage extends Component<Props> {
     onClick(menu){
         let RouteName, params = {};
         switch (menu) {
+            //教程
             case MORE_MENU.Tutorial:
                 RouteName='WebViewPage';
                 params.title = '教程';
                 params.url = 'https://facebook.github.io/react-native/';
                 break;
+
+
+                //进入关于作者
+            case MORE_MENU.About_Author:
+                  RouteName='AboutMyPage';
+                  break;
+
+
+                  //反馈
             case MORE_MENU.Feedback:
                 const url = 'mailto:3434481891@qq.com';
                 Linking.canOpenURL(url)

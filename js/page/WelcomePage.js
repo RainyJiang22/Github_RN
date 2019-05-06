@@ -8,31 +8,38 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, View, Image, Text} from 'react-native';
-
-
+import {connect} from 'react-redux';
 import NavigationUtil from '../navigator/NavigationUtil';
+import SplashScreen from "react-native-splash-screen";
 type Props = {};
-export default class WelcomePage extends Component<Props> {
+class WelcomePage extends Component<Props> {
     //定时跳转
      componentDidMount(){
        this.timer = setTimeout(() => {
+           SplashScreen.hide();
           NavigationUtil.resetTOHomePage({
               navigation:this.props.navigation
           })
-       },2000);
+       },200);
      }
       componentWillUnmount(){
         this.timer&&clearTimeout(this.timer);
      }
 
   render() {
-    return (
-      <View style={styles.container}>
-          <Text style={styles.welcome}>WelcomePage</Text>
-      </View>
-    );
+    return null;
   }
 }
+
+
+//订阅
+const mapDispatchToProps = dispatch =>({
+
+});
+
+export default connect(null, mapDispatchToProps)(WelcomePage);
+
+
 
 const styles = StyleSheet.create({
   container: {

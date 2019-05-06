@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View,Button,TouchableOpacity,ScrollView} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView, Linking} from 'react-native';
 import actions from "../action";
 import {connect} from "react-redux";
 //import NavigationUtil from "../navigator/NavigationUtil";
@@ -75,7 +75,25 @@ class MyPage extends Component<Props> {
             case MORE_MENU.About_Author:
                 RouteName='AboutMyPage';
                 break;
+
+
+                //反馈
+            case MORE_MENU.Feedback:
+                const url = 'mailto:3434481891@qq.com';
+                Linking.canOpenURL(url)
+                    .then(support => {
+                        if (!support) {
+                            console.log('Can\'t handle url: ' + url);
+                        } else {
+                            Linking.openURL(url);
+                        }
+                    }).catch(e => {
+                    console.error('An error occurred', e);
+                });
+                break;
         }
+
+
         if (RouteName){
             NavigationUtil.goPage(params,RouteName);
         }
