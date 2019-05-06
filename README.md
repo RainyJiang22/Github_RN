@@ -221,7 +221,27 @@ export default class BackPressComponent {
  - 需要使用到react-native-parallax-scroll-view第三方组件
  - [详情前点击☞](https://github.com/i6mi6/react-native-parallax-scroll-view)
  4. Linking 第三方邮箱发送插件
+```
+import {Linking} from 'react-native';
+ const url = 'mailto:3434481891@qq.com';
+                Linking.canOpenURL(url)
+                    .then(support => {
+                        if (!support) {
+                            console.log('Can\'t handle url: ' + url);
+                        } else {
+                            Linking.openURL(url);
+                        }
+                    }).catch(e => {
+                    console.error('An error occurred', e);
+                });
+                break;
+ ```   
  5. 调用React-native中的Clipboard复制剪切板
+```
+     Clipboard.setString(tab.account);
+      this.toast.show(tab.title + tab.account + '已复制到剪切板。');
+```
+ 6. 定制化主题开发
 
 
 

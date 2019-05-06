@@ -20,8 +20,6 @@ import {
 } from "react-navigation";
 import NavigationBar from "../common/NavigationBar";
 import AntDesign from "react-native-vector-icons/AntDesign";
-
-
 const URL = 'https://github.com/trending/';
 import TrendingDialogs,{TimeSpans} from "../common/TrendingDialog"
 import NavigationUtil from "../navigator/NavigationUtil";
@@ -30,35 +28,46 @@ import {FLAG_STORAGE} from "../expand/dao/DataStore";
 import FavoriteDao from "../expand/dao/FavoriteDao";
 import EventBus from "react-native-event-bus";
 import EventTypes from "../util/EventTypes";
+import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
+import ArrayUtil from "../util/ArrayUtil";
 //const QUERY_STR = '&sort=stars'; //按照点赞数来排序
 const TITLE_COLOR = '#2a8ffa';
 const EVENT_TYPE_TIME_SPAN_CHANGE =  'EVENT_TYPE_TIME_SPAN_CHANGE';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
 type Props = {};
-export default class TrendingPage extends Component<Props> {
+class TrendingPage extends Component<Props> {
     //默认显示今天
-   // timeSpan:TimeSpans[0];
+    // timeSpan:TimeSpans[0];
 
     //顶部导航动态显示
     constructor(props){
         super(props);
         console.disableYellowBox = true; //取消Warning界面
-        this.tabNames =['All','C','C#','PHP','JavaScript'];
+     //   this.tabNames =['All','C','C#','PHP','JavaScript'];
         this.state = {
             //默认显示今天
             timeSpan: TimeSpans[0],
         };
+        const {onLoadLanguage} = this.props;
+        onLoadLanguage(FLAG_LANGUAGE.flag_language);
+        this.preKeys = [];
+
     }
     _genTabs(){
         const tabs={};
-        this.tabNames.forEach((item,index)=>{
-            tabs[`tab${index}`] = {
-
-                screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item}/>,  //传递数据
-                navigationOptions:{
-                    title:item
+        const {keys} = this.props;
+        this.preKeys = keys;
+        keys.forEach((item,index)=>{
+            //判断是否选中
+            if(item.checked){
+                tabs[`tab${index}`] = {
+                    screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name}/>,  //传递数据
+                    navigationOptions:{
+                        title:item.name
+                    }
                 }
             }
+
         });
         return tabs;
     }
@@ -71,11 +80,11 @@ export default class TrendingPage extends Component<Props> {
                 underlayColor='transparent'
                 onPress={() => this.dialog.show()}>
                 <View style={{flexDirection: 'row',alignItems:'center'}}>
-                     <Text style={{
-                         fontSize:18,
-                         color:'#FFFFFF',
-                         fontWeight: '400'
-                     }}>趋势  {this.state.timeSpan.showText}</Text>
+                    <Text style={{
+                        fontSize:18,
+                        color:'#FFFFFF',
+                        fontWeight: '400'
+                    }}>趋势  {this.state.timeSpan.showText}</Text>
                     <MaterialIcons
                         name={'arrow-drop-down'}
                         size={22}
@@ -92,11 +101,11 @@ export default class TrendingPage extends Component<Props> {
     //这里需要动态创建
 
 
-   //对标题tabNavigation进行优化，防止变更趋势时间的时候，在一次被动态加载
+    //对标题tabNavigation进行优化，防止变更趋势时间的时候，在一次被动态加载
     //优化效率：根据需要选择是否重新创建建TabNavigator，通常tab改变后才重新创建
     //还在测试中
-   _tabNav(){
-        if (!this.tabNav){
+    _tabNav(){
+        if (!this.tabNav || !ArrayUtil.isEqual(this.preKeys,this.props.keys)){
             this.tabNav = createAppContainer(createMaterialTopTabNavigator(
                 this._genTabs(),{
                     tabBarOptions:{
@@ -115,27 +124,27 @@ export default class TrendingPage extends Component<Props> {
             ));
         }
         return this.tabNav;
-   }
+    }
 
 
-    //react-navigation3.x的特性
-   _tabNavigator(){
-        const TabNavigator = createMaterialTopTabNavigator(
-            this._genTabs(),{
-               tabBarOptions:{
-                   tabStyle:styles.tableStyle, //是否使用相关样式
-                   upperCaseLabel:false, //是否使用标签大写
-                   scrollEnabled:true, //是否支持选项卡可以滚动
-                   styles:{
-                       backgroundColor:"#2a8ffa",
-                       height:40,  //设置固定的高度
-                   },
-                   indicatorStyle:styles.indicatorStyle, //指示器的颜色
-                   labelStyle:styles.labelStyle, //文字样式
-               }
-        });
-        return createAppContainer(TabNavigator);
-   }
+    // //react-navigation3.x的特性
+    // _tabNavigator(){
+    //     const TabNavigator = createMaterialTopTabNavigator(
+    //         this._genTabs(),{
+    //             tabBarOptions:{
+    //                 tabStyle:styles.tableStyle, //是否使用相关样式
+    //                 upperCaseLabel:false, //是否使用标签大写
+    //                 scrollEnabled:true, //是否支持选项卡可以滚动
+    //                 styles:{
+    //                     backgroundColor:"#2a8ffa",
+    //                     height:40,  //设置固定的高度
+    //                 },
+    //                 indicatorStyle:styles.indicatorStyle, //指示器的颜色
+    //                 labelStyle:styles.labelStyle, //文字样式
+    //             }
+    //         });
+    //     return createAppContainer(TabNavigator);
+    // }
 
 
     //获取右边按钮(搜索按钮)
@@ -166,12 +175,13 @@ export default class TrendingPage extends Component<Props> {
 
     renderTrendingDialog(){
         return <TrendingDialogs
-              ref={dialog => this.dialog=dialog}
-              onSelect={tab => this.onSelectTimeSpan(tab)}
+            ref={dialog => this.dialog=dialog}
+            onSelect={tab => this.onSelectTimeSpan(tab)}
         />
     }
 
     render() {
+        const {keys} = this.props;
         let statusBar={
             backgroundColor: TITLE_COLOR,
             barStyle: 'light-content', //不设置也行
@@ -183,16 +193,29 @@ export default class TrendingPage extends Component<Props> {
             rightButton={this.getRightButton()}
         />;
 
-        const TabNavigator = this._tabNav();
-       // const TabNavigator = this._tabTopNavigator();
+        const TabNavigator = keys.length ? this._tabNav(): null;
+        // const TabNavigator = this._tabTopNavigator();
         return <View style={{flex: 1}}>
             {navigationBar}
-            <TabNavigator/>
+            {TabNavigator && <TabNavigator/>}
             {this.renderTrendingDialog()}
         </View>
 
     }
 }
+
+
+//订阅
+const mapTrendingStateToProps = state => ({
+    keys: state.language.languages,
+});
+const mapTrendingDispatchToProps = dispatch => ({
+    onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag))
+});
+//注意：connect只是个function，并不应定非要放在export后面
+export default connect(mapTrendingStateToProps, mapTrendingDispatchToProps)(TrendingPage);
+
+
 
 const pageSize = 10;//设为常量，防止修改，每次加载的列表数
 class TrendingTab extends Component<Props> {
@@ -219,12 +242,13 @@ class TrendingTab extends Component<Props> {
         })
     }
 
+    //事件加载完成的时候
     componentWillUnmount() {
-           if (this.timeSpanChangeListener){
-               this.timeSpanChangeListener.remove();
-           }
-           EventBus.getInstance().removeListener(this.favoriteChangeListener);
-           EventBus.getInstance().removeListener(this.bottomTabSelectListener);
+        if (this.timeSpanChangeListener){
+            this.timeSpanChangeListener.remove();
+        }
+        EventBus.getInstance().removeListener(this.favoriteChangeListener);
+        EventBus.getInstance().removeListener(this.bottomTabSelectListener);
     }
 
     loadData(loadMore,refreshFavorite){
@@ -279,7 +303,7 @@ class TrendingTab extends Component<Props> {
                     projectModel: item,
                     flag:FLAG_STORAGE.flag_trending,
                     callback,
-                    },'DetailPage');
+                },'DetailPage');
             }}
             onFavorite={(item,isFavorite) => FavoriteUtil.onFavorite(favoriteDao,item,isFavorite,FLAG_STORAGE.flag_trending)}
         />
@@ -376,7 +400,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     tableStyle:{
-       // minWidth: 50
+        // minWidth: 50
         padding:0,
     },
     indicatorStyle:{
