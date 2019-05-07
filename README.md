@@ -242,7 +242,8 @@ import {Linking} from 'react-native';
       this.toast.show(tab.title + tab.account + '已复制到剪切板。');
 ```
  6. 定制化主题开发
-
+- 包括可定制化标签选择功能，使用了如下组件
+- react-native-checked-box[☞详情前点击](https://www.npmjs.com/package/react-native-check-box)
 
 
 ## 网络编程技术

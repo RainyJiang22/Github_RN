@@ -9,11 +9,10 @@ import AboutPage from '../page/about/AboutPage';
 //import FetchDemoPage from '../page/FetchDemoPage';
 import WebViewPage from "../page/WebViewPage";
 import AboutMyPage from "../page/about/AboutMyPage";
-import DataStoreDemoPage from  '../page/DataStoreDemoPage';
-import  AsyncStorageDemoPage from '../page/AsyncStorageDemoPage';
 import Splash from '../swiper/Splash';
 import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware, createReduxContainer} from 'react-navigation-redux-helpers';
+import CustomKeyPage from "../page/CustomKeyPage";
 
 
 export const rootCom = 'Init'; //设置根路由
@@ -75,6 +74,14 @@ const MainNavigator = createStackNavigator({
             header:null
         }
     },
+
+    //自定义标签
+    CustomKeyPage:{
+        screen:CustomKeyPage,
+        navigationOptions:{
+            header:null
+        }
+    }
     // AsyncStorageDemoPage: {
     //     screen: AsyncStorageDemoPage,
     //     navigationOptions:{

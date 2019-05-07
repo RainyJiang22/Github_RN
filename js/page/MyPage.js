@@ -20,6 +20,7 @@ import {MORE_MENU} from "../common/MORE_MENU";
 import GlobalStyles from "../res/GlobalStyles";
 import ViewUtil from "../util/ViewUtil";
 import NavigationUtil from "../navigator/NavigationUtil";
+import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 
 
 type Props = {};
@@ -64,14 +65,30 @@ class MyPage extends Component<Props> {
     onClick(menu){
         let RouteName, params = {};
         switch (menu) {
+            //教程
             case MORE_MENU.Tutorial:
                 RouteName='WebViewPage';
                 params.title = '教程';
                 params.url = 'https://facebook.github.io/react-native/';
                 break;
+                //关于
             case MORE_MENU.About:
                 RouteName='AboutPage';
                 break;
+
+                //自定义语言
+                //自定义标签
+                //标签移除
+            case MORE_MENU.Custom_Key:
+            case MORE_MENU.Custom_Language:
+            case MORE_MENU.Remove_Key:
+                RouteName = 'CustomKeyPage';
+                RouteName = 'CustomKeyPage';
+                params.isRemoveKey = menu === MORE_MENU.Remove_Key;
+                params.flag = menu !== MORE_MENU.Custom_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language;
+                break;
+
+                //关于作者
             case MORE_MENU.About_Author:
                 RouteName='AboutMyPage';
                 break;

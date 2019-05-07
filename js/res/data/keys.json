@@ -31,13 +31,13 @@
     "checked": false
   },
   {
-    "path": "react",
-    "name": "React",
-    "checked": true
+    "path": "javaScript",
+    "name": "javaScript",
+    "checked": false
   },
   {
-    "path": "java",
-    "name": "Java",
+    "path": "react",
+    "name": "React",
     "checked": true
   }
 ]
