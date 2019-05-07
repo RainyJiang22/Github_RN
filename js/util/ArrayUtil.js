@@ -16,6 +16,23 @@ export default  class ArrayUtil{
     }
 
 
+    /**
+     * 将数组中指定元素移除
+     * @param array
+     * @param item 要移除的item
+     * @param id 要对比的属性，缺省则比较地址
+     * @returns {*}
+     */
+    static remove(array, item, id) {
+        if (!array) return;
+        for (let i = 0, l = array.length; i < l; i++) {
+            const val = array[i];
+            if (item === val || val && val[id] && val[id] === item[id]) {
+                array.splice(i, 1);
+            }
+        }
+        return array;
+    }
 
     /**
      * 判断两个数组的是否相等

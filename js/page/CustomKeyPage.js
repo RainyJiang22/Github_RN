@@ -60,9 +60,15 @@ class CustomKeyPage extends Component<Props> {
      const {flag,isRemoveKey} = props.navigation.state.params;
         let key = flag === FLAG_LANGUAGE.flag_key ? "keys" : "languages";
       //标签移除以后考虑
-        if(isRemoveKey && !original){
-
-        }else{
+        if (isRemoveKey && !original) {
+            //如果state中的keys为空则从props中取
+            return state && state.keys && state.keys.length !== 0 && state.keys || props.language[key].map(val => {
+                return {//注意：不直接修改props，copy一份
+                    ...val,
+                    checked: false
+                };
+            });
+        } else{
             return props.language[key];
         }
     }
@@ -101,6 +107,11 @@ class CustomKeyPage extends Component<Props> {
               return;
           }
           let keys;
+        if (this.isRemoveKey) {//移除标签的特殊处理
+            for (let i = 0, l = this.changeValues.length; i < l; i++) {
+                ArrayUtil.remove(keys = CustomKeyPage._keys(this.props, true), this.changeValues[i], "name");
+            }
+        }
           //更新数据
         this.lanuageDao.save(keys || this.state.keys);
         const {onLoadLanguage} = this.props;
