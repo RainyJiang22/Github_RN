@@ -88,6 +88,17 @@ class MyPage extends Component<Props> {
                 params.flag = menu !== MORE_MENU.Custom_Language ? FLAG_LANGUAGE.flag_key : FLAG_LANGUAGE.flag_language;
                 break;
 
+                //标签排序
+                //语言排序
+            case MORE_MENU.Sort_Key:
+                RouteName = 'SortKeyPage';
+                params.flag = FLAG_LANGUAGE.flag_key;
+                break;
+            case MORE_MENU.Sort_Language:
+                RouteName = 'SortKeyPage';
+                params.flag = FLAG_LANGUAGE.flag_language;
+                break;
+
                 //关于作者
             case MORE_MENU.About_Author:
                 RouteName='AboutMyPage';

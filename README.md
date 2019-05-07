@@ -244,6 +244,8 @@ import {Linking} from 'react-native';
  6. 定制化主题开发
 - 包括可定制化标签选择功能，使用了如下组件
 - react-native-checked-box[☞详情前点击](https://www.npmjs.com/package/react-native-check-box)
+7. 实现拖拽排序功能
+- react-native-sortable-listview[☞详情前点击](https://www.npmjs.com/package/react-native-sortable-listview)
 
 
 ## 网络编程技术

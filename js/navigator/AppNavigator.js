@@ -1,18 +1,17 @@
 import {createStackNavigator,
         createSwitchNavigator,
         createAppContainer} from 'react-navigation';
-
 import WelcomePage from '../page/WelcomePage';
 import HomePage from '../page/HomePage';
 import DetailPage from '../page/DetailPage';
 import AboutPage from '../page/about/AboutPage';
-//import FetchDemoPage from '../page/FetchDemoPage';
 import WebViewPage from "../page/WebViewPage";
 import AboutMyPage from "../page/about/AboutMyPage";
 import Splash from '../swiper/Splash';
 import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware, createReduxContainer} from 'react-navigation-redux-helpers';
 import CustomKeyPage from "../page/CustomKeyPage";
+import SortKeyPage from "../page/SortKeyPage";
 
 
 export const rootCom = 'Init'; //设置根路由
@@ -78,6 +77,14 @@ const MainNavigator = createStackNavigator({
     //自定义标签
     CustomKeyPage:{
         screen:CustomKeyPage,
+        navigationOptions:{
+            header:null
+        }
+    },
+
+    //标签排序页
+    SortKeyPage:{
+        screen:SortKeyPage,
         navigationOptions:{
             header:null
         }
