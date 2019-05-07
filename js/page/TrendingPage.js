@@ -119,7 +119,8 @@ class TrendingPage extends Component<Props> {
                         indicatorStyle:styles.indicatorStyle, //指示器的颜色
                         labelStyle:styles.labelStyle, //文字的样式
 
-                    }
+                    },
+                    lazy: true //启用懒加载
                 }
             ));
         }
