@@ -40,15 +40,15 @@ type Props = {};
 const pageSize =10; //设为常量，防止修改，最大数值
 class SearchPage extends Component<Props> {
 
-  //顶部导航动态显示
-  constructor(props){
-    super(props);
-      this.params = this.props.navigation.state.params;
-      this.backPress = new BackPressComponent({backPress: (e) => this.onBackPress(e)});
-      this.favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
-      this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
-      this.isKeyChange = false;
-  }
+    //顶部导航动态显示
+    constructor(props){
+        super(props);
+        this.params = this.props.navigation.state.params;
+        this.backPress = new BackPressComponent({backPress: (e) => this.onBackPress(e)});
+        this.favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
+        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.isKeyChange = false;
+    }
 
 
     componentDidMount() {
@@ -76,15 +76,15 @@ class SearchPage extends Component<Props> {
     }
 
     onBackPress(){
-          const {onSearchCancel,onLoadLanguage} = this.props;
-          onSearchCancel(); //退出的时候取消搜索
-         this.refs.input.blur();
-         NavigationUtil.goBack(this.props.navigation);
-         if (this.isKeyChange){
-             onLoadLanguage(FLAG_LANGUAGE.flag_key); //重新加载标签
-         }
-         return true;
-      }
+        const {onSearchCancel,onLoadLanguage} = this.props;
+        onSearchCancel(); //退出的时候取消搜索
+        this.refs.input.blur();
+        NavigationUtil.goBack(this.props.navigation);
+        if (this.isKeyChange){
+            onLoadLanguage(FLAG_LANGUAGE.flag_key); //重新加载标签
+        }
+        return true;
+    }
 
 
     renderItem(data) {
@@ -169,102 +169,102 @@ class SearchPage extends Component<Props> {
      * 添加标签
      * @returns {*}
      */
-   saveKey(){
+    saveKey(){
 
-       const {keys} = this.props;
-       let key =   this.inputKey;
-       if (Utils.checkKeyIsExist(keys,key)){
-           this.toast.show(key + '已经存在');
-       }else{
-           key = {
-               "path":key,
-               "name":key,
-               "checked": true
-           };
-           keys.unshift(key); //将key添加到数组的开头
-           this.languageDao.save(keys);
-           this.toast.show(key.name + '保存成功');
-           this.isKeyChange = true;
-       }
+        const {keys} = this.props;
+        let key =   this.inputKey;
+        if (Utils.checkKeyIsExist(keys,key)){
+            this.toast.show(key + '已经存在');
+        }else{
+            key = {
+                "path":key,
+                "name":key,
+                "checked": true
+            };
+            keys.unshift(key); //将key添加到数组的开头
+            this.languageDao.save(keys);
+            this.toast.show(key.name + '保存成功');
+            this.isKeyChange = true;
+        }
     }
 
 
-  render() {
-      const {isLoading, projectModels, showBottomButton, hideLoadingMore} = this.props.search;
-      const {theme} = this.params;
-      let statusBar= null;
-      if (Platform.OS === 'ios' && !DeviceInfo.isIPhoneX_deprecated) {
-          statusBar = <View style={[styles.statusBar, {backgroundColor: theme.themeColor}]}/>
-      }
-      let listView =! isLoading?<FlatList
-          data={projectModels}
-          renderItem={data => this.renderItem(data)}
-          keyExtractor={item => "" + item.item.id}
-          //列表底部距离
-          contentInset={
-              {
-                  bottom: 45
-              }
-          }
-          refreshControl={
-              <RefreshControl
-                  title={'Loading'}
-                  titleColor={theme.themeColor}
-                  colors={[theme.themeColor]}
-                  refreshing={isLoading}
-                  onRefresh={() => this.loadData()}
-                  tintColor={theme.themeColor}
-              />
-          }
-          ListFooterComponent={() => this.genIndicator()}
-          onEndReached={() => {
-              console.log('---onEndReached----');
-              setTimeout(() => {
-                  if (this.canLoadMore) {//fix 滚动时两次调用onEndReached https://github.com/facebook/react-native/issues/14015
-                      this.loadData(true);
-                      this.canLoadMore = false;
-                  }
-              }, 100);
-          }}
-          onEndReachedThreshold={0.5}
-          onMomentumScrollBegin={() => {
-              this.canLoadMore = true; //fix 初始化时页调用onEndReached的问题
-              console.log('---onMomentumScrollBegin-----')
-          }}
-      /> : null;
-      let bottomButton = showBottomButton ?
-          <TouchableOpacity
-              style={[styles.bottomButton, {backgroundColor: theme.themeColor}]}
-              onPress={() => {
-                  this.saveKey();
-              }}
-          >
-              <View style={{justifyContent: 'center'}}>
-                  <Text style={styles.title}>朕收下了</Text>
-              </View>
-          </TouchableOpacity> : null;
-      let indicatorView = isLoading ?
-          <ActivityIndicator
-              style={styles.centering}
-              size='large'
-              animating={isLoading}
-          /> : null;
-      let resultView = <View style={{flex: 1}}>
-          {indicatorView}
-          {listView}
-      </View>;
+    render() {
+        const {isLoading, projectModels, showBottomButton, hideLoadingMore} = this.props.search;
+        const {theme} = this.params;
+        let statusBar= null;
+        if (Platform.OS === 'ios' && !DeviceInfo.isIPhoneX_deprecated) {
+            statusBar = <View style={[styles.statusBar, {backgroundColor: theme.themeColor}]}/>
+        }
+        let listView =! isLoading?<FlatList
+            data={projectModels}
+            renderItem={data => this.renderItem(data)}
+            keyExtractor={item => "" + item.item.id}
+            //列表底部距离
+            contentInset={
+                {
+                    bottom: 45
+                }
+            }
+            refreshControl={
+                <RefreshControl
+                    title={'Loading'}
+                    titleColor={theme.themeColor}
+                    colors={[theme.themeColor]}
+                    refreshing={isLoading}
+                    onRefresh={() => this.loadData()}
+                    tintColor={theme.themeColor}
+                />
+            }
+            ListFooterComponent={() => this.genIndicator()}
+            onEndReached={() => {
+                console.log('---onEndReached----');
+                setTimeout(() => {
+                    if (this.canLoadMore) {//fix 滚动时两次调用onEndReached https://github.com/facebook/react-native/issues/14015
+                        this.loadData(true);
+                        this.canLoadMore = false;
+                    }
+                }, 100);
+            }}
+            onEndReachedThreshold={0.5}
+            onMomentumScrollBegin={() => {
+                this.canLoadMore = true; //fix 初始化时页调用onEndReached的问题
+                console.log('---onMomentumScrollBegin-----')
+            }}
+        /> : null;
+        let bottomButton = showBottomButton ?
+            <TouchableOpacity
+                style={[styles.bottomButton, {backgroundColor: theme.themeColor}]}
+                onPress={() => {
+                    this.saveKey();
+                }}
+            >
+                <View style={{justifyContent: 'center'}}>
+                    <Text style={styles.title}>朕收下了</Text>
+                </View>
+            </TouchableOpacity> : null;
+        let indicatorView = isLoading ?
+            <ActivityIndicator
+                style={styles.centering}
+                size='large'
+                animating={isLoading}
+            /> : null;
+        let resultView = <View style={{flex: 1}}>
+            {indicatorView}
+            {listView}
+        </View>;
 
-    return (
-        <View style={styles.container}>
-            {statusBar}
-            {this.renderNavBar()}
-            {resultView}
-            {bottomButton}
-            <Toast ref={toast => this.toast = toast}/>
-        </View>
+        return (
+            <View style={styles.container}>
+                {statusBar}
+                {this.renderNavBar()}
+                {resultView}
+                {bottomButton}
+                <Toast ref={toast => this.toast = toast}/>
+            </View>
         )
 
-  }
+    }
 }
 
 
@@ -344,5 +344,3 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
 });
-
-
