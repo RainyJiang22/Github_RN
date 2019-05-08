@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware, createReduxContainer} from 'react-navigation-redux-helpers';
 import CustomKeyPage from "../page/CustomKeyPage";
 import SortKeyPage from "../page/SortKeyPage";
+import SearchPage from "../page/SearchPage";
 
 
 export const rootCom = 'Init'; //设置根路由
@@ -83,12 +84,18 @@ const MainNavigator = createStackNavigator({
     },
 
     //标签排序页
-    SortKeyPage:{
-        screen:SortKeyPage,
-        navigationOptions:{
-            header:null
+    SortKeyPage: {
+        screen: SortKeyPage,
+        navigationOptions: {
+            header: null
         }
-    }
+    },
+    SearchPage: {
+        screen: SearchPage,
+        navigationOptions: {
+            header: null
+        }
+    },
     // AsyncStorageDemoPage: {
     //     screen: AsyncStorageDemoPage,
     //     navigationOptions:{

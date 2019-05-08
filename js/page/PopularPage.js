@@ -28,6 +28,7 @@ import FavoriteUtil from "../util/FavoriteUtil";
 import EventBus from "react-native-event-bus";
 import EventTypes from "../util/EventTypes";
 import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
+import * as AnalyticsUtil from "react-native";
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars'; //按照点赞数来排序
 //const TITLE_COLOR = '#2a8ffa';
@@ -125,9 +126,12 @@ class PopularPage extends Component<Props> {
 
   //获取右边按钮,搜索和菜单
     getRightButton(){
+      const {theme} = this.props;
         return <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
                 onPress={() => {
+                 //   AnalyticsUtil.track("SearchButtonClick");
+                    NavigationUtil.goPage({theme}, 'SearchPage')
                 }}
             >
                 <View style={{padding:5,marginRight: 8,flexDirection:'row'}}>
@@ -138,11 +142,6 @@ class PopularPage extends Component<Props> {
                             style={{color:'white'}}
                         />
                     </View>
-                    <Foundation
-                        name={'align-right'}
-                        size={21}
-                        style={{color:'white'}}
-                    />
                 </View>
 
             </TouchableOpacity>

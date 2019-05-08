@@ -25,7 +25,8 @@ export const ThemeFlags = {
     Brown: '#795548',
     Grey: '#9E9E9E',
     BlueGrey: '#607D8B',
-    Black: '#000000'
+    Black: '#000000',
+    'LightPink':'#FF1493',
 };
 
 export default class ThemeFactory {
