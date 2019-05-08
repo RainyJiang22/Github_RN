@@ -30,7 +30,7 @@ import EventTypes from "../util/EventTypes";
 import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars'; //按照点赞数来排序
-const TITLE_COLOR = '#2a8ffa';
+//const TITLE_COLOR = '#2a8ffa';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 type Props = {};
 class PopularPage extends Component<Props> {
@@ -45,11 +45,11 @@ class PopularPage extends Component<Props> {
   }
   _genTabs(){
     const tabs={};
-    const {keys} = this.props;
+    const {keys,theme} = this.props;
     keys.forEach((item,index)=>{
         if (item.checked){
             tabs[`tab${index}`] = {
-                screen: props => <PopularTabPage {...props} tabLabel={item.name}/>,  //传递数据
+                screen: props => <PopularTabPage {...props} tabLabel={item.name} theme={theme}/>,  //传递数据
                 navigationOptions:{
                     title:item.name
                 }
@@ -151,15 +151,15 @@ class PopularPage extends Component<Props> {
 
 
   render() {
-      const {keys} = this.props;
+      const {keys,theme} = this.props;
       let statusBar={
-          backgroundColor: TITLE_COLOR,
+          backgroundColor: theme.themeColor,
           barStyle: 'light-content', //不设置也行
       };
       let navigationBar = <NavigationBar
         title={'最热'}
         statusBar={statusBar}
-        style={{backgroundColor:TITLE_COLOR}}
+        style={theme.styles.navBar}
         rightButton={this.getRightButton()}
       />;
 
@@ -170,7 +170,7 @@ class PopularPage extends Component<Props> {
                   upperCaseLabel: false,//是否使标签大写，默认为true
                   scrollEnabled: true,//是否支持 选项卡滚动，默认false
                   style: {
-                      backgroundColor: TITLE_COLOR,//TabBar 的背景颜色
+                      backgroundColor: theme.themeColor,//TabBar 的背景颜色
                       height: 40//fix 开启scrollEnabled后再Android上初次加载时闪烁问题
                   },
                   indicatorStyle: styles.indicatorStyle,//标签指示器的样式
@@ -189,6 +189,7 @@ class PopularPage extends Component<Props> {
 //订阅，获取key值
 const mapPopularStateToProps = state => ({
     keys: state.language.keys,
+    theme: state.theme.theme,
 });
 const mapPopularDispatchToProps = dispatch => ({
     onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag))
@@ -270,11 +271,14 @@ class PopularTab extends Component<Props> {
 
     renderItem(data){
        const item = data.item;
+       const {theme} = this.props;
        return <PopularItem
           projectModel ={item}
+          theme={theme}
           //点击跳转到每个Item的详情页
           onSelect={(callback)=>{
               NavigationUtil.goPage({
+                  theme,
                   projectModel: item,
                   flag:FLAG_STORAGE.flag_popular,
                   callback,
@@ -295,7 +299,7 @@ class PopularTab extends Component<Props> {
     }
 
     render() {
-
+    const {theme} = this.props;
     let store = this._store();
     return (
         <View style={styles.container}>
@@ -306,11 +310,11 @@ class PopularTab extends Component<Props> {
                 refreshControl={
                     <RefreshControl
                         title={'Loading'}
-                        titleColor={TITLE_COLOR}
-                        colors={[TITLE_COLOR]}
+                        titleColor={theme.themeColor}
+                        colors={[theme.themeColor]}
                         refreshing={store.isLoading}
                         onRefresh={() => this.loadData()}
-                        tintColor={TITLE_COLOR}
+                        tintColor={theme.themeColor}
                     />
                 }
 

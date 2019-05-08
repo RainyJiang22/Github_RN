@@ -15,8 +15,6 @@ import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import BackPressComponent from "../common/BackPressComponent";
 import LanguageDao from "../expand/dao/LanguageDao";
 import ViewUtil from "../util/ViewUtil";
-import CheckBox from 'react-native-check-box'
-import Ionicons from "react-native-vector-icons/Ionicons";
 import NavigationUtil from "../navigator/NavigationUtil";
 import SortableListView from 'react-native-sortable-listview'
 import ArrayUtil from "../util/ArrayUtil";
@@ -173,10 +171,10 @@ class SortKeyPage extends Component<Props> {
 
     render() {
       let  title = this.params.flag === FLAG_LANGUAGE.flag_language ? '语言排序' : '标签排序';
-
+      const {theme} = this.params;
       let navigationBar = <NavigationBar
         title={title}
-        style={{backgroundColor:TITLE_COLOR}}
+        style={theme.styles.navBar}
         leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
         rightButton={ViewUtil.getRightButton('保存',()=>this.onSave())}
       />;
@@ -200,6 +198,7 @@ class SortKeyPage extends Component<Props> {
 //自定义样式
 class SortCell extends Component {
     render() {
+        const {theme} = this.props;
         return <TouchableHighlight
             underlayColor={'#eee'}
             style={this.props.data.checked ? styles.item : styles.hidden}
@@ -208,7 +207,7 @@ class SortCell extends Component {
                 <MaterialCommunityIcons
                     name={'sort'}
                     size={16}
-                    style={{marginRight: 10, color: TITLE_COLOR}}/>
+                    style={{marginRight: 10, color: theme.themeColor}}/>
                 <Text>{this.props.data.name}</Text>
             </View>
         </TouchableHighlight>

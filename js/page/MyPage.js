@@ -12,8 +12,7 @@ import actions from "../action";
 import {connect} from "react-redux";
 //import NavigationUtil from "../navigator/NavigationUtil";
 import NavigationBar from "../common/NavigationBar";
-
-const THEME_COLOR = '#2a8ffa';
+// const THEME_COLOR = '#2a8ffa';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MORE_MENU} from "../common/MORE_MENU";
@@ -63,7 +62,8 @@ class MyPage extends Component<Props> {
     // }
 
     onClick(menu){
-        let RouteName, params = {};
+        const{theme} = this.props;
+        let RouteName, params = {theme};
         switch (menu) {
             //教程
             case MORE_MENU.Tutorial:
@@ -103,7 +103,11 @@ class MyPage extends Component<Props> {
             case MORE_MENU.About_Author:
                 RouteName='AboutMyPage';
                 break;
-
+              //自定义主题
+            case MORE_MENU.Custom_Theme:
+                const {onShowCustomThemeView} = this.props;
+                onShowCustomThemeView(true);
+                break;
 
                 //反馈
             case MORE_MENU.Feedback:
@@ -129,20 +133,21 @@ class MyPage extends Component<Props> {
 
 
     getItem(menu){
-        return ViewUtil.getMenuItem(() => this.onClick(menu),menu,THEME_COLOR);
+        const {theme} = this.props;
+        return ViewUtil.getMenuItem(() => this.onClick(menu),menu,theme.themeColor);
     }
 
     render() {
-
+        const {theme} = this.props;
         let statusBar={
-            backgroundColor: THEME_COLOR,
+            backgroundColor: theme.themeColor,
             barStyle:'light-content',
         };
 
         let navigationBar = <NavigationBar
          title={'我的'}
          statusBar={statusBar}
-         style={{backgroundColor:THEME_COLOR}}
+         style={theme.styles.navBar}
          rightButton={this.getRightButton()}
        //  leftButton={this.getLeftButton()}
         />;
@@ -161,7 +166,7 @@ class MyPage extends Component<Props> {
                             size={40}
                             style={{
                                 marginRight: 10,
-                                color:THEME_COLOR,
+                                color:theme.themeColor,
                             }}
                         />
                         <Text>GitHub 账户</Text>
@@ -172,7 +177,7 @@ class MyPage extends Component<Props> {
                         style={{
                             marginRight: 10,
                             alignSelf: 'center',
-                            color: THEME_COLOR,
+                            color: theme.themeColor,
                         }}/>
                 </TouchableOpacity>
                 <View style={GlobalStyles.line}/>
@@ -218,41 +223,34 @@ class MyPage extends Component<Props> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
+        marginTop: 30
     },
     about_left: {
         alignItems: 'center',
         flexDirection: 'row'
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-    item:{
-        backgroundColor:'white',
-        padding : 10,
-        height  : 60,
+    item: {
+        backgroundColor: 'white',
+        padding: 10,
+        height: 90,
         alignItems: 'center',
-        justifyContent:'space-between',
-        flexDirection:'row'
+        justifyContent: 'space-between',
+        flexDirection: 'row'
     },
-    groupTitle:{
-        marginLeft:10,
-        marginTop:10,
+    groupTitle: {
+        marginLeft: 10,
+        marginTop: 10,
         marginBottom: 5,
         fontSize: 12,
-        color:'gray',
+        color: 'gray'
     }
 });
 
-const mapStateToProps = state => ({});
+
+const mapStateToProps = state => ({
+    theme: state.theme.theme,
+});
 const mapDispatchToProps = dispatch => ({
-    onThemeChange: theme => dispatch(actions.onThemeChange(theme))
+    onShowCustomThemeView: (show) => dispatch(actions.onShowCustomThemeView(show)),
 });
 export default connect(mapStateToProps,mapDispatchToProps)(MyPage);

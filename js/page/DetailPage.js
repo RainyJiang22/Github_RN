@@ -13,7 +13,7 @@ import ViewUtil from '../util/ViewUtil';
 import FontAwesome from  'react-native-vector-icons/FontAwesome';
 import NavigationUtil from "../navigator/NavigationUtil";
 import BackPressComponent from "../common/BackPressComponent";
-const THEME_COLOR = '#2a8ffa';
+//const THEME_COLOR = '#2a8ffa';
 const TRENDING_URL = 'https://github.com/';
 import FavoriteDao from "../expand/dao/FavoriteDao";
 
@@ -103,11 +103,11 @@ export default class DetailPage extends Component<Props> {
   }
 
   render() {
-
+     const {theme} = this.params;
       const titleLayoutStyle = this.state.title.length > 20 ? {paddingRight: 30} : null;
       let navigationBar = <NavigationBar
         title={this.state.title}
-        style={{backgroundColor:THEME_COLOR}}
+        style={theme.styles.navBar}
         titleLayoutStyle={titleLayoutStyle} //标题显示适配
         leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
         rightButton={this.renderRightButton()}

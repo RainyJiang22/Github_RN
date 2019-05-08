@@ -1,4 +1,4 @@
-import {onThemeChange} from "./theme";
+import {onThemeChange,onThemeInit,onShowCustomThemeView} from "./theme";
 import {onLoadPopularData,onLoadMorePopular,onFlushPopularFavorite} from "./popular";
 import {onRefreshTrending,onLoadMoreTrending,onFlushTrendingFavorite} from "./trending";
 import {onLoadFavoriteData} from "./favorite";
@@ -14,4 +14,6 @@ export default {
     onFlushPopularFavorite,
     onFlushTrendingFavorite,
     onLoadLanguage,
+    onThemeInit,
+    onShowCustomThemeView
 }

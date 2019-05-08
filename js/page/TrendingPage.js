@@ -31,7 +31,7 @@ import EventTypes from "../util/EventTypes";
 import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
 import ArrayUtil from "../util/ArrayUtil";
 //const QUERY_STR = '&sort=stars'; //按照点赞数来排序
-const TITLE_COLOR = '#2a8ffa';
+//const TITLE_COLOR = '#2a8ffa';
 const EVENT_TYPE_TIME_SPAN_CHANGE =  'EVENT_TYPE_TIME_SPAN_CHANGE';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
 type Props = {};
@@ -55,13 +55,13 @@ class TrendingPage extends Component<Props> {
     }
     _genTabs(){
         const tabs={};
-        const {keys} = this.props;
+        const {keys,theme} = this.props;
         this.preKeys = keys;
         keys.forEach((item,index)=>{
             //判断是否选中
             if(item.checked){
                 tabs[`tab${index}`] = {
-                    screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name}/>,  //传递数据
+                    screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name} theme={theme}/>,  //传递数据
                     navigationOptions:{
                         title:item.name
                     }
@@ -105,7 +105,9 @@ class TrendingPage extends Component<Props> {
     //优化效率：根据需要选择是否重新创建建TabNavigator，通常tab改变后才重新创建
     //还在测试中
     _tabNav(){
-        if (!this.tabNav || !ArrayUtil.isEqual(this.preKeys,this.props.keys)){
+        const {theme} = this.props;
+        if (theme !== this.theme || !this.tabNav || !ArrayUtil.isEqual(this.preKeys,this.props.keys)){
+            this.theme = theme;
             this.tabNav = createAppContainer(createMaterialTopTabNavigator(
                 this._genTabs(),{
                     tabBarOptions:{
@@ -113,7 +115,7 @@ class TrendingPage extends Component<Props> {
                         upperCaseLabel:false, //是否使用标签大写
                         scrollEnabled:true, //是否支持选项卡可以滚动
                         style:{
-                            backgroundColor:"#2a8ffa", //配置tab的背景色
+                            backgroundColor: theme.themeColor, //配置tab的背景色
                             height:40 , //设置固定的高度
                         },
                         indicatorStyle:styles.indicatorStyle, //指示器的颜色
@@ -182,15 +184,15 @@ class TrendingPage extends Component<Props> {
     }
 
     render() {
-        const {keys} = this.props;
+        const {keys,theme} = this.props;
         let statusBar={
-            backgroundColor: TITLE_COLOR,
+            backgroundColor: theme.themeColor,
             barStyle: 'light-content', //不设置也行
         };
         let navigationBar = <NavigationBar
             titleView={this.renderTitleView()}
             statusBar={statusBar}
-            style={{backgroundColor:TITLE_COLOR}}
+            style={theme.styles.navBar}
             rightButton={this.getRightButton()}
         />;
 
@@ -209,6 +211,7 @@ class TrendingPage extends Component<Props> {
 //订阅
 const mapTrendingStateToProps = state => ({
     keys: state.language.languages,
+    theme: state.theme.theme,
 });
 const mapTrendingDispatchToProps = dispatch => ({
     onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag))
@@ -297,10 +300,13 @@ class TrendingTab extends Component<Props> {
 
     renderItem(data){
         const item = data.item;
+        const {theme} = this.props;
         return <TrendingItem
             projectModel = {item}
+            theme = {theme}
             onSelect={(callback)=>{
                 NavigationUtil.goPage({
+                    theme,
                     projectModel: item,
                     flag:FLAG_STORAGE.flag_trending,
                     callback,
@@ -321,7 +327,7 @@ class TrendingTab extends Component<Props> {
     }
 
     render() {
-
+        const {theme} = this.props;
         let store = this._store();
         return (
             <View style={styles.container}>
@@ -332,11 +338,11 @@ class TrendingTab extends Component<Props> {
                     refreshControl={
                         <RefreshControl
                             title={'Loading'}
-                            titleColor={TITLE_COLOR}
-                            colors={[TITLE_COLOR]}
+                            titleColor={theme.themeColor}
+                            colors={[theme.themeColor]}
                             refreshing={store.isLoading}
                             onRefresh={() => this.loadData()}
-                            tintColor={TITLE_COLOR}
+                            tintColor={theme.themeColor}
                         />
                     }
 

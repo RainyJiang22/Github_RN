@@ -13,7 +13,7 @@ import ViewUtil from '../util/ViewUtil';
 import FontAwesome from  'react-native-vector-icons/FontAwesome';
 import NavigationUtil from "../navigator/NavigationUtil";
 import BackPressComponent from "../common/BackPressComponent";
-const THEME_COLOR = '#2a8ffa';
+//const THEME_COLOR = '#2a8ffa';
 
 type Props = {};
 export default class WebViewPage extends Component<Props> {
@@ -62,11 +62,11 @@ export default class WebViewPage extends Component<Props> {
   }
 
   render() {
-
+      const {theme} = this.params;
       const titleLayoutStyle = this.state.title.length > 20 ? {paddingRight: 30} : null;
       let navigationBar = <NavigationBar
         title={this.state.title}
-        style={{backgroundColor:THEME_COLOR}}
+        style={theme.styles.navBar}
         leftButton={ViewUtil.getLeftBackButton(() => this.onBackPress()) }
       />;
 

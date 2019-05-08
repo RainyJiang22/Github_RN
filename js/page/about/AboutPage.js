@@ -14,7 +14,7 @@ import ViewUtil from "../../util/ViewUtil";
 import NavigationUtil from "../../navigator/NavigationUtil";
 import AboutCommon, {FLAG_ABOUT} from "./AboutCommon";
 import config from '../../.././github_app_config';
-const THEME_COLOR = '#2a8ffa';
+//const THEME_COLOR = '#2a8ffa';
 
 type Props = {};
 export  default  class AboutPage extends Component<Props> {
@@ -35,7 +35,8 @@ export  default  class AboutPage extends Component<Props> {
 
 
     onClick(menu){
-        let RouteName, params = {};
+        const {theme} = this.params;
+        let RouteName, params = {theme};
         switch (menu) {
             //教程
             case MORE_MENU.Tutorial:
@@ -73,7 +74,8 @@ export  default  class AboutPage extends Component<Props> {
 
 
     getItem(menu){
-        return ViewUtil.getMenuItem(() => this.onClick(menu),menu,THEME_COLOR);
+        const {theme} = this.params;
+        return ViewUtil.getMenuItem(() => this.onClick(menu),menu,theme.themeColor);
     }
 
     render() {

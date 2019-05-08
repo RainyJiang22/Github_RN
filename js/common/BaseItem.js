@@ -59,6 +59,7 @@ export default class BaseItem extends Component {
 
 
     _favoriteIcon(){
+        const {theme} = this.props;
         return <TouchableOpacity
           sylte={{padding:6}}
            underlayColor='transparent'
@@ -67,7 +68,7 @@ export default class BaseItem extends Component {
             <FontAwesome
                 name={this.state.isFavorite ? 'star' : 'star-o'}
                 size={26}
-                style={{color: '#2a8ffa'}}
+                style={{color: theme.themeColor}}
             />
         </TouchableOpacity>
     }

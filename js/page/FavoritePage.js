@@ -29,10 +29,10 @@ import TrendingItem from "../common/TrendingItem";
 import EventBus from "react-native-event-bus";
 import EventTypes from "../util/EventTypes";
 
-const TITLE_COLOR = '#2a8ffa';
+//const TITLE_COLOR = '#2a8ffa';
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 type Props = {};
-export default class FavoritePage extends Component<Props> {
+class FavoritePage extends Component<Props> {
 
   //顶部导航动态显示
   constructor(props){
@@ -43,37 +43,38 @@ export default class FavoritePage extends Component<Props> {
 
 
   //react-navigation3.x的特性
-  _tabTopNavigator(){
-    const TabNavigator = createMaterialTopTabNavigator({
-        'Popular': {
-            screen: props => <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_popular} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
-            navigationOptions: {
-                title: '最热',
-            },
-        },
-        'Trending': {
-            screen: props => <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_trending} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
-            navigationOptions: {
-                title: '趋势',
-            },
-         },
-         },{
-          tabBarOptions:{
-            tabStyle:styles.tableStyle,
-            upperCaseLabel:false, //是否使用标签大写
-            scrollEnabled:false, //是否支持选项卡可以滚动
-            style:{
-              backgroundColor:"#2a8ffa", //配置tab的背景色
-              height:40, //设置固定的高度
-            },
-            indicatorStyle:styles.indicatorStyle, //指示器的颜色
-            labelStyle:styles.labelStyle, //文字的样式
-
-          }
-        }
-    );
-    return  createAppContainer(TabNavigator);
-  }
+  // _tabTopNavigator(){
+  //     const {theme} = this.props;
+  //   const TabNavigator = createMaterialTopTabNavigator({
+  //       'Popular': {
+  //           screen: props => <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_popular} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
+  //           navigationOptions: {
+  //               title: '最热',
+  //           },
+  //       },
+  //       'Trending': {
+  //           screen: props => <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_trending} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
+  //           navigationOptions: {
+  //               title: '趋势',
+  //           },
+  //        },
+  //        },{
+  //         tabBarOptions:{
+  //           tabStyle:styles.tableStyle,
+  //           upperCaseLabel:false, //是否使用标签大写
+  //           scrollEnabled:false, //是否支持选项卡可以滚动
+  //           style:{
+  //             backgroundColor:theme.themeColor, //配置tab的背景色
+  //             height:40, //设置固定的高度
+  //           },
+  //           indicatorStyle:styles.indicatorStyle, //指示器的颜色
+  //           labelStyle:styles.labelStyle, //文字的样式
+  //
+  //         }
+  //       }
+  //   );
+  //   return  createAppContainer(TabNavigator);
+  // }
 
     //优化效率：根据需要选择是否重新创建建TabNavigator，通常tab改变后才重新创建
 
@@ -117,17 +118,43 @@ export default class FavoritePage extends Component<Props> {
 
 
   render() {
+      const {theme} = this.props;
       let statusBar={
-          backgroundColor: TITLE_COLOR,
+          backgroundColor: theme.themeColor,
           barStyle: 'light-content', //不设置也行
       };
       let navigationBar = <NavigationBar
         title={'收藏'}
         statusBar={statusBar}
-        style={{backgroundColor:TITLE_COLOR}}
+        style={theme.styles.navBar}
       />;
 
-    const TabNavigator = this._tabTopNavigator();
+      const TabNavigator = createAppContainer(createMaterialTopTabNavigator({
+              'Popular': {
+                  screen: props => <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_popular} theme={theme}/>,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
+                  navigationOptions: {
+                      title: '最热',
+                  },
+              },
+              'Trending': {
+                  screen: props => <FavoriteTabPage {...props} flag={FLAG_STORAGE.flag_trending} theme={theme}/>,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
+                  navigationOptions: {
+                      title: '趋势',
+                  },
+              },
+          }, {
+              tabBarOptions: {
+                  tabStyle: styles.tabStyle,
+                  upperCaseLabel: false,//是否使标签大写，默认为true
+                  style: {
+                      backgroundColor: theme.themeColor,//TabBar 的背景颜色
+                      height: 40//fix 开启scrollEnabled后再Android上初次加载时闪烁问题
+                  },
+                  indicatorStyle: styles.indicatorStyle,//标签指示器的样式
+                  labelStyle: styles.labelStyle,//文字的样式
+              }
+          }
+      ));
     return <View style={{flex: 1}}>
         {navigationBar}
         <TabNavigator/>
@@ -135,6 +162,12 @@ export default class FavoritePage extends Component<Props> {
 
   }
 }
+
+const mapFavoriteStateToProps = state => ({
+    theme: state.theme.theme,
+});
+//注意：connect只是个function，并不应定非要放在export后面
+export default connect(mapFavoriteStateToProps)(FavoritePage);
 
 class FavoriteTab extends Component<Props> {
    constructor(props){
@@ -191,12 +224,15 @@ class FavoriteTab extends Component<Props> {
         }
     }
     renderItem(data){
+        const {theme} = this.props;
        const item = data.item;
         const Item = this.storeName === FLAG_STORAGE.flag_popular ? PopularItem : TrendingItem;
        return <Item
           projectModel ={item}
+          theme = {theme}
           onSelect={(callback)=>{
               NavigationUtil.goPage({
+                  theme,
                   projectModel: item,
                   flag:FLAG_STORAGE.flag_popular,
                   callback,
@@ -208,7 +244,7 @@ class FavoriteTab extends Component<Props> {
 
 
     render() {
-
+    const {theme} = this.props;
     let store = this._store();
     return (
         <View style={styles.container}>
@@ -219,11 +255,11 @@ class FavoriteTab extends Component<Props> {
                 refreshControl={
                     <RefreshControl
                         title={'Loading'}
-                        titleColor={TITLE_COLOR}
-                        colors={[TITLE_COLOR]}
+                        titleColor={theme.themeColor}
+                        colors={[theme.themeColor]}
                         refreshing={store.isLoading}
                         onRefresh={() => this.loadData(true)}
-                        tintColor={TITLE_COLOR}
+                        tintColor={theme.themeColor}
                     />
                 }
             />
