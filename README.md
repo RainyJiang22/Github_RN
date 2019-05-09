@@ -246,7 +246,7 @@ import {Linking} from 'react-native';
 - react-native-checked-box[☞详情前点击](https://www.npmjs.com/package/react-native-check-box)
 7. 实现拖拽排序功能
 - react-native-sortable-listview[☞详情前点击](https://www.npmjs.com/package/react-native-sortable-listview)
-
+- react-native-sortable-listview[☞详情前点击](https://www.npmjs.com/package/react-native-sortable-listview)
 
 ## 网络编程技术
 1. RN使用Fetch进行网络请求，Fetch可与XMLHttpRequest相媲美
