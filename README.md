@@ -20,7 +20,7 @@
 
 ## 下载安装
 - 请手机扫描二维码下载，目前仅支持安卓手机，IOS以后更新，版本v1.0
-
+![](https://github.com/jackytallow/Github_RN/blob/master/HotGit15x15.png)
 
 
 ## 功能与特性
