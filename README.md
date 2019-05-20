@@ -16,8 +16,6 @@
 * [收藏模块开发](#收藏模块开发)
 * [我的模块开发](#我的模块开发)
 * [运行调试](#运行调试)
-* [界面效果图](#界面效果图)
-
 
 ## 下载安装
 - 请手机扫描二维码下载，目前仅支持安卓手机，IOS以后更新，版本v1.0
@@ -108,6 +106,7 @@ export  default createAppContainer(createSwitchNavigator({
   - 提升用户体验
   - 节省流量 
   - 可以提高APP的响应速度，本地上其实就是网络请求和本地缓存功能的结合，大致流程图如下：
+  ![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/DataStore-Process.png)
 
 
 #### 基于redux+FlatList实现列表页数据加载
@@ -353,6 +352,3 @@ import {Linking} from 'react-native';
 ####  终端运行 `npm install`。
 #### 然后运行 `react-native run-ios` 或 `react-native run-android`。
 
-
-## 界面效果图
-![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Welcome.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Pouplar.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Pouplar.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Trending-Month.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/My.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Favorite.jpg)
