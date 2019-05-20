@@ -96,10 +96,10 @@ export  default createAppContainer(createSwitchNavigator({
   - [关于redux+navigation的搭建可查看手记](https://www.jianshu.com/p/1af09d80f14c)
 
 #### 值得注意的是，redux在视图层绑定引入了几个概念：
-    - <Provider>组件：这个组件需要包裹在整个组件树的最外层。这个组件让根组件的所有子孙组件能够轻松的使用connext()方法绑定store
-    -  connect():这是react-redux提供的一个方法。如果一个组件想要响应状态的变化，就把自己作为参数传给connect（）的结果，connect（）方法会处理与store绑定的细节，并通过selector确定该绑定store中哪一部分的数据。
-    -  selector: 这是自己编写的一个函数，这个函数声明了你的组件需要整个store中的哪一部分数据作为自己的props
-    -  dispatch:每当想要改变应用中的状态时，你就要dispatch一个action，这也是唯一改变状态的方法
+  - <Provider>组件：这个组件需要包裹在整个组件树的最外层。这个组件让根组件的所有子孙组件能够轻松的使用connext()方法绑定store
+  -  connect():这是react-redux提供的一个方法。如果一个组件想要响应状态的变化，就把自己作为参数传给connect（）的结果，connect（）方法会处理与store绑定的细节，并通过selector确定该绑定store中哪一部分的数据。
+  -  selector: 这是自己编写的一个函数，这个函数声明了你的组件需要整个store中的哪一部分数据作为自己的props
+  -  dispatch:每当想要改变应用中的状态时，你就要dispatch一个action，这也是唯一改变状态的方法
 
 
 #### 离线缓存框架（DataStore）
