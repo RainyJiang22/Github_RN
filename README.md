@@ -337,10 +337,10 @@ import {Linking} from 'react-native';
 ##  数据存储技术
 
 #### 这里我们使用AsyncStorage
-    - 简单的，异步的，持久化的key-value存储系统
-    - AsyncStorage也是React Navtive官方推荐的数据存储方式
-    - IOS平台中会使用原生代码将AsyncStorage中的小数据存储于序列化的字典数据结构中，大数据存储于单独的文件中
-    - Androd平台会将AsyncStorage存储于RocksDB或者Sqlite中
+   - 简单的，异步的，持久化的key-value存储系统
+   - AsyncStorage也是React Navtive官方推荐的数据存储方式
+   - IOS平台中会使用原生代码将AsyncStorage中的小数据存储于序列化的字典数据结构中，大数据存储于单独的文件中
+   - Androd平台会将AsyncStorage存储于RocksDB或者Sqlite中
 
 #### [AsyncStorage的使用，详情前点击☞](https://facebook.github.io/react-native/docs/getting-started)
 
