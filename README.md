@@ -35,7 +35,7 @@
 
 ## 技术与框架
 
-1.  react navigation 3.x,可以参考:[react navigation3.x](https://reactnavigation.org/docs/en/hello-react-navigation.html)
+###  react navigation 3.x,可以参考:[react navigation3.x](https://reactnavigation.org/docs/en/hello-react-navigation.html)
  -  在使用react-navigation3.x的时候，与之前的2.x大概有两种不同
  -   在导入react-navigation的时候2.x版本只需要`npm add`或者`npm install react-navigation`
       不同的是react-navigation3.x版本除了安装`npm install react-navigation`还需要导入`npm add react-native-gesture-handler`
@@ -88,9 +88,9 @@ export  default createAppContainer(createSwitchNavigator({
     }));
 ```
 
-2.  react-native swiper : [☞详情前点击](https://github.com/leecade/react-native-swiper)
+###  react-native swiper : [☞详情前点击](https://github.com/leecade/react-native-swiper)
 
-3.  react-redux : [☞详情前点击](https://react-redux.js.org/)
+###  react-redux : [☞详情前点击](https://react-redux.js.org/)
   - 用户（操作View）发出方式用到dispatch方法
   - Store自动调用reducer，并且传入两个参数（当前State和收到的Action）,Reducer会返回新的State，如果有Middleware
   - State一旦有变化，Store就会调用监听函数，来更新View;
