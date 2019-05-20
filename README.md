@@ -355,7 +355,4 @@ import {Linking} from 'react-native';
 
 
 ## 界面效果图
-![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Welcome.jpg) ![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Pouplar.jpg) 
-![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Pouplar.jpg)  ![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Trending-Month.jpg)
-![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/My.jpg) ![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Favorite.jpg) 
-
+![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Welcome.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Pouplar.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Pouplar.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Trending-Month.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/My.jpg)![](https://github.com/jackytallow/Github_RN/blob/master/app-screen/Favorite.jpg)
