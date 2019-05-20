@@ -176,7 +176,6 @@ export default class BackPressComponent {
 
 
 ## 最热模块开发
-
 #### 基于redux + FlatList实现列表页数据加载 
 #### 设计最热模块的state树
 #### 操作异步action与数据流
@@ -184,6 +183,8 @@ export default class BackPressComponent {
 #### 灵活应用connect
 #### action和调用进行交互
 #### FaltList的高级应用与加载更多的优化(待完成，加载更多已经完成)
+
+
 
 ## 收藏模块开发
 #### 封装FavoriteDao以及多数据存储设计思想
@@ -322,7 +323,10 @@ import {Linking} from 'react-native';
 #### fetch规范于JQuery.ajax()主要有两种方式的不同
  * 当收到代表错误的HTTP状态码，不会被标记为reject,状态码会变为404或500，它会将Promise状态标记为resolve
  * 默认情况下，fetch不会从服务端发送或者接收任何cookies，如果依赖于用户session，则会导致未经认证的请求
-
+ * react-native 提供了全局的fetch函数作为替代xhr的网络通讯模块。之所以这么选择是由于xhr存在以下的缺点：
+ * 设计上不符合责任分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象里。
+ * 与最近的promise以及基于生成器的异步编程模型不太搭。
+ 
 #### 使用的api
  - 开始时使用nodejs进行后台数据调用，后来发现Github官网数据太过庞大，所以直接使用了它的开源Api
  - 需要注意的是GitHub官网只提供了最热页面的数据，所以趋势界面我是用了别人封装好并且已经上传到RN上的开源组件，调用方式不发生改变，需要导入
